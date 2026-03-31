@@ -403,6 +403,7 @@
 
 <div class="source-bar">
   <span>Sources:</span>
+  <a href="https://github.com/Zocdoc/incident-command-training/" target="_blank">Training Repo</a>
   <a href="https://fantastic-adventure-y7yw7y9.pages.github.io/" target="_blank">Slide Deck</a>
   <a href="https://docs.google.com/document/d/1i-sfiPB8GZiyvW7mZDrmxnq3Vw-lupeVj-c250utlVk/edit?tab=t.gvybp59rhjpy" target="_blank">Session #1</a>
   <a href="https://docs.google.com/document/d/1lOUGu4ZamaZLtss-JFIHB-JOs0xnXMy2H7I5NI-g7Pc/edit?tab=t.le3910nsieop" target="_blank">Session #2</a>
@@ -412,242 +413,650 @@
 <script>
 const KB = {
   role: {
-    keywords: ['role','what is ic','what does ic do','ic do','responsibility','responsibilities','job','purpose','incident commander is'],
-    answer: `<h3>The IC Role</h3>
-<p>The Incident Commander is the <strong>single decision-maker</strong> during an active SEV-1 incident.</p>
-<div class="step-card"><strong>Focus:</strong> Coordination, communication, delegation &mdash; NOT debugging or fixing code</div>
-<div class="step-card"><strong>Goals:</strong> Facilitate the quickest path to mitigation and resolution; pull in any team; page any responders</div>
-<div class="step-card"><strong>Scope:</strong> Exclusively SEV-1 incidents for Cohort #1</div>
-<div class="alert-card">&#x1F4A1; Key principle: <strong>"Drive the process, don't debug."</strong></div>
-<p>See the <a href="https://fantastic-adventure-y7yw7y9.pages.github.io/" target="_blank">training slide deck</a> for the full role breakdown with visuals.</p>`
+    keywords: ['role','what is ic','what does ic do','ic do','responsibility','responsibilities','job','purpose','incident commander is','ic role','what is the ic'],
+    answer: `<h3>The IC Role &amp; Responsibilities</h3>
+<p>The Incident Commander is the <strong>single decision-maker</strong> during an active incident. The IC is empowered to pull in any team, escalate to any level, and direct all responders.</p>
+<div class="step-card"><strong>Core Focus:</strong> Manage chaos, coordinate response, communicate status &mdash; the IC does NOT debug or fix code.</div>
+<div class="step-card"><strong>Key Powers:</strong> Page any team, escalate to any level, direct responders, set severity, decide on rollback, authorize status page updates.</div>
+<p><strong>IC Responsibilities:</strong></p>
+<ul>
+<li>Declare yourself as IC &mdash; announce in channel + assign role in Rootly</li>
+<li>Assign roles: SME per impacted team, Comms Lead, Scribe</li>
+<li>Assess and set severity (SEV1/2/3)</li>
+<li>Decide mitigation strategy (rollback, feature flag, failover)</li>
+<li>Maintain Executive Summary updates</li>
+<li>Manage status page decisions</li>
+<li>Create and track action items</li>
+<li>Assign Retro Owner before/after resolution</li>
+</ul>
+<div class="alert-card">&#x1F4A1; Key principle: <strong>"Drive the process, don't debug."</strong> Use the incident-specific Slack channel for all communication. Pin key messages with 📌 for the timeline.</div>
+<p><strong>What the IC does NOT do:</strong> Debug code, write the retro document, fix the issue directly, or investigate root cause (that's the SME's job).</p>`
   },
 
   during_incident: {
-    keywords: ['during incident','steps during','checklist','incident now','pulled into','my shift','what do i do','what should i do','active incident','got paged','just got'],
-    answer: `<h3>🚨 Incident Checklist (Do This Now)</h3>
-<div class="step-card"><strong>Step 1: Declare yourself as IC</strong><br>Post: <em>"I'm taking over as Incident Commander. Here's what we're seeing: [impact]. Current status: [investigating/mitigating]. Next update in 30 min."</em><br>Click <strong>Assign Roles</strong> form button &rarr; self-assign as IC.</div>
-<div class="step-card"><strong>Step 2: Escalate to service owners</strong><br>Click the <strong>Escalate</strong> form button. Select escalation policy or specific users. <strong>Escalate BEFORE diagnosis.</strong></div>
-<div class="step-card"><strong>Step 3: Investigate &amp; assess severity</strong><br>Assess blast radius. Identify exit criteria. Quantify impact (bookings, revenue, reputation).</div>
-<div class="step-card"><strong>Step 4: Mitigate</strong><br>Decide: rollback, feature flag, failover, or hotfix. Mitigated ≠ resolved (temporary state).</div>
-<div class="step-card"><strong>Step 5: Resolve</strong><br>Verify exit criteria. Update exec summary. Confirm stable for <strong>15+ minutes</strong>.</div>
-<div class="step-card"><strong>Step 6: Create action items</strong><br>Pin messages with ⭐ star or 📝 memo emoji &rarr; export to Jira.</div>
-<div class="step-card"><strong>Step 7: Assign retro lead</strong><br>Delegate the retrospective owner.</div>
-<div class="alert-card">⚡ <strong>Remember:</strong> All comms in the Slack incident channel. No side conversations. Post exec summary every 30 min (SEV-1) or 60 min (SEV-2).</div>`
+    keywords: ['during incident','steps during','checklist','incident now','pulled into','my shift','what do i do','what should i do','active incident','got paged','just got','step by step','what are the steps'],
+    answer: `<h3>Incident Checklist &mdash; Step by Step</h3>
+<div class="step-card"><strong>Step 1: Declare yourself as IC</strong><br>Announce in the incident channel: <em>"I'm taking over as Incident Commander."</em><br>Assign yourself as IC in Rootly via the Assign Roles button or <code>/incident</code> command.</div>
+<div class="step-card"><strong>Step 2: Assign roles &amp; escalate</strong><br>Identify which teams are impacted. Page SMEs via <code>/incident escalate</code> or the Escalate button. Assign a Comms Lead if status page is needed. Create Action Items for urgent tasks.</div>
+<div class="step-card"><strong>Step 3: Investigate &amp; assess severity</strong><br>Use the decision tree:<br>
+&bull; <strong>Can patients complete a booking? No &rarr; SEV1</strong><br>
+&bull; <strong>Are customers noticeably impacted but not blocked? Yes &rarr; SEV2</strong><br>
+&bull; <strong>Would most customers notice today? No &rarr; SEV3</strong><br>
+Assess blast radius: booking/search/provider availability? All patients or a subset?<br>
+Confirm severity, decide on rollback, status page. Identify affected Functionalities/Services. Add Executive Summary. Define Exit Criteria.</div>
+<div class="step-card"><strong>Step 4: Mitigate</strong><br>Goal: reduce blast radius, NOT full fix. Examples: roll back deploy, disable feature flag, failover to backup.<br>
+<strong>SLAs:</strong> SEV1 &le; 1 hour, SEV2 &le; 4 hours.<br>
+Enter <code>/incident mitigate</code>. Update Executive Summary and status page. Post updates every 30&ndash;60 min.</div>
+<div class="step-card"><strong>Step 5: Resolve</strong><br>Root cause addressed, metrics back to normal, exit criteria met. Confirm with all responders. Enter <code>/incident resolve</code>. Update summary and status page. Create follow-up action items with 📝. Pin key messages with 📌.</div>
+<div class="step-card"><strong>Step 6: Update Executive Summary</strong><br>Include: what went wrong, who was impacted, how mitigated/resolved, booking impact, timeline. SEV1/2: update with every status change. SEV3: within 24hr (72hr on weekends).</div>
+<div class="step-card"><strong>Step 7: Assign Retro Owner</strong><br>Assign in Rootly. Create action item for retro within 5 business days.</div>
+<div class="step-card"><strong>Step 8: Schedule Retro Meeting</strong><br>Use <code>/incident workflows schedule-retro</code> for SEV1/2. SEV3 is async only.</div>
+<div class="step-card"><strong>Step 9: Close OUT Ticket</strong><br>Resolve within 14 days. Confirm retro doc is complete, action items are linked, update status to Done.</div>
+<div class="alert-card">&#x26A1; <strong>Remember:</strong> All communication in the incident Slack channel. No side conversations. Delegate technical investigation to SMEs.</div>`
   },
 
   severity: {
-    keywords: ['severity','sev 1','sev 2','sev 3','sev-1','sev-2','sev-3','critical','major','minor','sla','how long','time limit','acknowledge','ack'],
-    answer: `<h3>Severity Definitions &amp; SLAs</h3>
+    keywords: ['severity','sev 1','sev 2','sev 3','sev-1','sev-2','sev-3','sev1','sev2','sev3','critical','major','minor','sla','how long','time limit','decision tree','booking blocked','patient impact'],
+    answer: `<h3>Severity Definitions &amp; Decision Tree</h3>
+<p><strong>The Decision Tree:</strong></p>
+<div class="step-card"><strong>Can patients complete a booking? No &rarr; SEV1</strong></div>
+<div class="step-card"><strong>Are customers noticeably impacted but not blocked? Yes &rarr; SEV2</strong></div>
+<div class="step-card"><strong>Would most customers notice this today? No &rarr; SEV3</strong></div>
 <table>
-<tr><th>Severity</th><th>Definition</th><th>Mitigation SLA</th><th>Ack</th><th>Exec Summary</th></tr>
-<tr><td><strong>SEV-1</strong></td><td>Customer workflows BLOCKED</td><td>1 hour</td><td>15 min</td><td>Every 30 min</td></tr>
-<tr><td><strong>SEV-2</strong></td><td>Degraded / noticeable impact</td><td>4 hours</td><td>15 min</td><td>Every 60 min</td></tr>
-<tr><td><strong>SEV-3</strong></td><td>Customers wouldn't notice</td><td>Best effort</td><td>&mdash;</td><td>&mdash;</td></tr>
+<tr><th>Severity</th><th>Definition</th><th>Mitigation SLA</th><th>Retro Required</th></tr>
+<tr><td><strong>SEV1</strong></td><td>Widespread patient impact. Core flows unavailable. Patients CANNOT complete bookings.</td><td>&le; 1 hour</td><td>Meeting + Doc</td></tr>
+<tr><td><strong>SEV2</strong></td><td>Partial meaningful impact. Customers noticeably impacted but not fully blocked.</td><td>&le; 4 hours</td><td>Meeting + Doc</td></tr>
+<tr><td><strong>SEV3</strong></td><td>Limited/internal impact. Most customers would NOT notice today.</td><td>Best effort</td><td>Doc only (leadership discretion)</td></tr>
 </table>
-<div class="alert-card">⬆️ <strong>Always round UP</strong> if severity is ambiguous. The SLA clock does NOT stop while you sleep.</div>
-<p><strong>Examples:</strong></p>
+<p><strong>Zocdoc Examples:</strong></p>
 <ul>
-<li>SEV-1: Booking is down, KMS throttled</li>
-<li>SEV-2: Degraded auth0 API, search crash</li>
-<li>SEV-3: DLQ redrives, rollback with no customer impact</li>
+<li><strong>SEV1:</strong> Search API errors at 30% &mdash; patients can't find providers</li>
+<li><strong>SEV2:</strong> Rescheduling failing in NJ only &mdash; impacted but not fully blocked</li>
+<li><strong>SEV3:</strong> Profile photos not loading &mdash; cosmetic, patients unlikely to notice today</li>
+<li><strong>SEV1:</strong> Booking API down &mdash; 100% of bookings failing</li>
+<li><strong>SEV2:</strong> Insurance filter returning empty results in NJ &mdash; 15% of NJ queries</li>
 </ul>
-<p>If downgraded (e.g. SEV-2 → SEV-3), you're absolved from the original SLA.</p>`
+<div class="alert-card">&#x2B06;&#xFE0F; <strong>Always round UP</strong> if severity is ambiguous. Consider: booking/search/provider availability? All patients or a subset? What is the blast radius?</div>`
+  },
+
+  component_priority: {
+    keywords: ['component priority','p1','p2','p3','team priority','service priority','platform risk','hidden p1','internal p1'],
+    answer: `<h3>Component Priority (P1/P2/P3)</h3>
+<p>Component Priority is a <strong>team-level, service-specific</strong> urgency classification, <strong>independent of incident severity</strong>. A SEV3 incident can have a P1 component.</p>
+<table>
+<tr><th>Priority</th><th>Definition</th><th>Response</th><th>Escalation</th></tr>
+<tr><td><strong>P1 Critical</strong></td><td>Service fully down or imminent platform risk</td><td>All hands on deck</td><td>Escalate to EM immediately</td></tr>
+<tr><td><strong>P2 High</strong></td><td>Degraded performance or elevated risk</td><td>On-call responds promptly</td><td>EM aware within 1 hour</td></tr>
+<tr><td><strong>P3 Low</strong></td><td>Minor issue, workaround exists</td><td>Business hours</td><td>Track in Jira</td></tr>
+</table>
+<p><strong>How Severity + Priority Combine (Zocdoc examples):</strong></p>
+<ul>
+<li><strong>Booking API down:</strong> SEV1 + P1 (patients blocked, service down)</li>
+<li><strong>CI/CD risk wiping S3:</strong> SEV3 + P1 (no patient impact yet, but imminent platform risk)</li>
+<li><strong>Insurance filter wrong in NJ:</strong> SEV2 + P2 (partial impact, service degraded)</li>
+<li><strong>Search slow for one segment:</strong> SEV3 + P2 (minor patient impact)</li>
+<li><strong>Profile photos not loading:</strong> SEV3 + P3 (cosmetic, workaround exists)</li>
+</ul>
+<div class="alert-card">&#x1F525; <strong>Platform Reliability "Hidden P1s":</strong> CI/CD pipeline issues, DB connection pool exhaustion, DNS delays, monitoring gaps, auth degradation, cert expiration, CCPA pipeline stalled. These may be SEV3 but are P1 internally.</div>
+<p><strong>When to declare an incident for an internal P1:</strong></p>
+<ul>
+<li>Could escalate to patient impact within hours</li>
+<li>Multiple teams are blocked</li>
+<li>Requires cross-team coordination</li>
+<li>Time-sensitive risk window</li>
+<li>Repeat incident pattern</li>
+</ul>`
   },
 
   rootly: {
-    keywords: ['rootly','slack command','incident new','incident list','create incident','form button','tooling','platform','tool'],
+    keywords: ['rootly','slack command','incident new','incident list','create incident','form button','tooling','platform','tool','rootly commands','getting started','how to use rootly'],
     answer: `<h3>Rootly Platform &amp; Tooling</h3>
-<p><strong>Creating an incident:</strong></p>
-<div class="step-card"><code>/incident new</code> &mdash; Creates Slack channel + Jira ticket + PagerDuty alert + Confluence retro</div>
-<div class="step-card"><code>/incident list</code> &mdash; See all active incidents</div>
-<p><strong>Incident Channel Form Buttons</strong> (pinned at top):</p>
+<p>Rootly is Zocdoc's incident management platform, connecting <strong>Slack, PagerDuty, Jira, and Confluence</strong>.</p>
+<div class="step-card"><strong>Starting an Incident:</strong> <code>/incident new</code> &rarr; automatically creates: dedicated Slack channel, OUT ticket in Jira, PagerDuty incident, announcement to #incidents.</div>
+<p><strong>Incident Channel Buttons</strong> (pinned at top):</p>
 <ol>
+<li><strong>Update</strong> &mdash; Change severity, executive summary, services, detection time</li>
 <li><strong>Escalate</strong> &mdash; Page responders via escalation policy or specific users</li>
-<li><strong>Assign Roles</strong> &mdash; Self-assign IC, delegate Tech Lead, Scribe, Comms Lead</li>
-<li><strong>Update</strong> &mdash; Change severity, exec summary, detection time</li>
-<li><strong>Run Workflow</strong> &mdash; Create Confluence retro, send #prod announcements</li>
+<li><strong>Mitigate</strong> &mdash; Mark incident as mitigated</li>
+<li><strong>Resolve</strong> &mdash; Mark incident as resolved</li>
+<li><strong>Jira</strong> &mdash; Link to OUT ticket</li>
 </ol>
-<p><strong>Channel bookmarks:</strong> Google Meet, Rootly, status page, TeamCity rollback guide</p>
-<p>For screenshots of the Rootly UI, visit the <a href="https://fantastic-adventure-y7yw7y9.pages.github.io/" target="_blank">training slide deck</a>.</p>`
+<p><strong>Essential Slash Commands:</strong></p>
+<ul>
+<li><code>/incident new</code> &mdash; Create a new incident</li>
+<li><code>/incident escalate</code> &mdash; Page teams via PagerDuty</li>
+<li><code>/incident mitigate</code> &mdash; Mark mitigated</li>
+<li><code>/incident resolve</code> &mdash; Mark resolved</li>
+<li><code>/incident status</code> &mdash; View current status</li>
+<li><code>/incident add action item</code> &mdash; Create an action item</li>
+<li><code>/incident action items</code> &mdash; List action items</li>
+<li><code>/incident timeline &lt;note&gt;</code> &mdash; Add a timeline note</li>
+</ul>
+<p><strong>Required Fields</strong> (these drive your retro grade):</p>
+<ul>
+<li>Severity, Executive Summary, Services, Root Cause (20pts)</li>
+<li>Detection Method (10pts), Booking Impact (10pts), Customer Impact Type (10pts)</li>
+</ul>
+<div class="step-card"><strong>Fastest Incident Flow (minimal commands):</strong><br>
+1. <code>/incident new</code> (only command you need)<br>
+2. IC clicks <strong>Update</strong> &rarr; set severity, summary<br>
+3. IC clicks <strong>Escalate</strong> &rarr; page teams<br>
+4. SMEs pin 📌 key findings<br>
+5. Anyone stars &#x2B50; action items<br>
+6. IC clicks <strong>Mitigate</strong><br>
+7. IC clicks <strong>Resolve</strong><br>
+8. Rootly auto-generates retro doc</div>
+<div class="alert-card">&#x1F4A1; <strong>Automated Reports from Rootly:</strong> Daily Incident Digest (#incidents), Outage Action Items (#incidents), EM DMs (your team's incidents), Weekly Retro Grade Scorecard (#incidents).</div>`
   },
 
   emoji: {
-    keywords: ['emoji','pin','star','memo','action item','timeline','jira ticket','export'],
-    answer: `<h3>Emoji Workflows</h3>
+    keywords: ['emoji','pin','star','memo','action item emoji','timeline emoji','jira ticket','export','emoji workflow','shortcuts emoji'],
+    answer: `<h3>Emoji Workflows &amp; Shortcuts</h3>
 <table>
-<tr><th>Emoji</th><th>Action</th><th>Result</th></tr>
-<tr><td>📌 Pin</td><td>Pin a message</td><td>Adds to incident <strong>timeline</strong> (auto-captured in Confluence retro)</td></tr>
-<tr><td>⭐ Star</td><td>Star a message</td><td>Marks as <strong>action item</strong> (exportable to Jira)</td></tr>
-<tr><td>📝 Memo</td><td>Memo emoji</td><td>Marks as <strong>action item</strong> (exportable to Jira)</td></tr>
+<tr><th>Emoji</th><th>When to Use</th><th>What Happens</th></tr>
+<tr><td>📌 Pin</td><td>Key findings, status changes, decisions</td><td>Added to incident <strong>timeline</strong>. Rootly confirms with &#x2705;</td></tr>
+<tr><td>&#x2B50; Star</td><td>During incident &mdash; tasks that need doing</td><td>Marked as <strong>action item</strong>. Rootly confirms with &#x2705;</td></tr>
+<tr><td>📝 Memo</td><td>After incident &mdash; follow-up work needed</td><td>Marked as <strong>follow-up action item</strong>. Rootly confirms with &#x2705;</td></tr>
+<tr><td>&#x1F525; Fire</td><td>High-priority item</td><td>Flags as <strong>high priority</strong></td></tr>
+<tr><td>&#x1F440; Eyes</td><td>Investigating something</td><td>Signals <strong>"looking into it"</strong></td></tr>
 </table>
-<div class="step-card">Pinned messages get a ✅ green checkmark. Eyes 👀 and 🔥 flame do NOT.</div>
-<div class="step-card">To export: Open the <strong>Action Items modal</strong> → select items → choose Jira project key &amp; issue type → tickets are auto-created AND appear in the Confluence retro.</div>`
+<div class="step-card"><strong>Confirmation:</strong> When Rootly captures a 📌, &#x2B50;, or 📝 reaction, it adds a &#x2705; checkmark to confirm the message was captured.</div>
+<div class="step-card"><strong>To export action items:</strong> Open the Action Items modal in Rootly &rarr; select items &rarr; choose Jira project key &amp; issue type &rarr; tickets are auto-created AND appear in the Confluence retro doc.</div>
+<div class="alert-card">&#x1F4A1; <strong>Tip:</strong> Pin (📌) generously during an incident. Everything pinned flows into the auto-generated timeline in the retro document.</div>`
   },
 
   escalation: {
-    keywords: ['escalate','escalation','page','who to page','who do i call','service owner','pagerduty','pager duty','product area','who owns'],
-    answer: `<h3>Escalation Reference</h3>
-<div class="step-card"><strong>Use the Escalate form button</strong> in the incident channel. You can select by escalation policy OR by specific users (overrides on-call).</div>
-<p><strong>Product Areas Mapping (Coming Q2):</strong></p>
+    keywords: ['escalate','escalation','page','who to page','who do i call','service owner','pagerduty','pager duty','product area','who owns','escalate to teams','how to escalate','no one answers','wrong person','reassign'],
+    answer: `<h3>Escalation Guide</h3>
+<div class="step-card"><strong>How to Escalate:</strong> Use <code>/incident escalate</code> or click the <strong>Escalate</strong> button in the incident channel. This pages the on-call via PagerDuty (Primary &rarr; Secondary &rarr; Escalation Policy).</div>
+<p><strong>Key Escalation Actions:</strong></p>
 <ul>
-<li>New dropdown maps Miro board product areas → PagerDuty escalation policies</li>
-<li>Type 3+ keystrokes to autocomplete the right team</li>
-<li>Zero guesswork &mdash; correct service owner paged instantly</li>
+<li><strong>Add more teams:</strong> <code>/incident escalate</code> &rarr; Edit Responders &rarr; add services/policies</li>
+<li><strong>Reassign:</strong> <code>/incident escalate</code> &rarr; Reassign &rarr; select correct service</li>
+<li><strong>Escalate higher:</strong> Use the "Escalate to level" dropdown</li>
+<li><strong>View on-call:</strong> Calendar icon in the escalate dialog</li>
 </ul>
-<div class="alert-card">🤷 <strong>Don't know who to page?</strong><br>
-&bull; Message a director or VP<br>
-&bull; Use the vendor contacts quick link<br>
-&bull; @ mention <code>team-dbre</code> or <code>team-sre</code> in Slack<br>
-&bull; It's OK to page the wrong person &mdash; apologize and re-page!</div>
-<p>See the <a href="https://fantastic-adventure-y7yw7y9.pages.github.io/" target="_blank">slide deck</a> for the escalation modal screenshots.</p>`
+<p><strong>Common Zocdoc Escalation Examples:</strong></p>
+<table>
+<tr><th>Problem Area</th><th>Page This Team</th></tr>
+<tr><td>Booking confirmations failing</td><td>Marketplace Engineering (Booking)</td></tr>
+<tr><td>Provider search errors</td><td>Search Relevance</td></tr>
+<tr><td>Insurance eligibility issues</td><td>Marketplace Insurance</td></tr>
+<tr><td>Appointment reminders broken</td><td>Appointment &amp; Post-Appointment</td></tr>
+<tr><td>Practice portal down</td><td>Provider Onboarding</td></tr>
+<tr><td>Auth/login failures</td><td>Auth (Infrastructure)</td></tr>
+<tr><td>AWS/routing/Datadog</td><td>SRE (Reliability Engineering)</td></tr>
+</table>
+<div class="alert-card">&#x1F937; <strong>Don't know who to page?</strong><br>
+&bull; Check the <a href="https://miro.com/app/board/uXjVLabPvW4=/" target="_blank">Engineering Org Miro dashboard</a><br>
+&bull; Use the Product Feature Component field in <code>/incident new</code><br>
+&bull; Page the department EM directly<br>
+&bull; For cross-team issues, page multiple teams &mdash; don't wait!</div>
+<div class="alert-card">&#x1F6A8; <strong>No one answers?</strong> <code>/incident escalate</code> &rarr; Edit Responders &rarr; Add the Engineering Director or VP by name. Still nothing? Escalate to Engineering Leadership directly.</div>`
   },
 
   after_incident: {
-    keywords: ['after incident','post incident','resolution','retro','retrospective','lsr','live site review','action items after','wrap up','done','resolved'],
-    answer: `<h3>After an Incident</h3>
-<div class="step-card"><strong>Post-Resolution Checklist:</strong>
+    keywords: ['after incident','post incident','post-incident','after resolution','wrap up','done','resolved what next','what happens after'],
+    answer: `<h3>Post-Resolution Checklist</h3>
+<div class="step-card"><strong>Immediately After Resolution:</strong>
 <ol>
-<li>Assign retrospective lead (retro owner)</li>
-<li>Mark action items with ⭐/📝 emoji</li>
-<li>Export action items to Jira</li>
-<li>Verify fields: root cause, resolution, timestamps, detection time</li>
-<li>Update executive summary</li>
+<li>Confirm with all responders that exit criteria are met and metrics are normal</li>
+<li>Enter <code>/incident resolve</code> in Rootly</li>
+<li>Update the Executive Summary with full timeline</li>
+<li>Update the status page to "Resolved"</li>
+<li>Create follow-up action items with 📝 emoji</li>
+<li>Pin key messages with 📌 for the timeline</li>
+<li>Assign a Retro Owner in Rootly</li>
 </ol></div>
 <p><strong>SLA Deadlines:</strong></p>
 <table>
-<tr><th>Deadline</th><th>Requirement</th></tr>
-<tr><td>5 biz days</td><td>Retro document completed</td></tr>
-<tr><td>1 week</td><td>Retro meeting held</td></tr>
-<tr><td>2 weeks</td><td>LSR presentation</td></tr>
-<tr><td>14 days</td><td>Ticket in Done state</td></tr>
+<tr><th>Deadline</th><th>Requirement</th><th>Owner</th></tr>
+<tr><td>5 business days</td><td>Retro document completed in Confluence</td><td>Retro Owner</td></tr>
+<tr><td>1 week</td><td>Retro meeting held</td><td>Retro Owner</td></tr>
+<tr><td>2 weeks</td><td>LSR (Live Site Review) presentation</td><td>Retro Owner</td></tr>
+<tr><td>14 days</td><td>OUT ticket in Done state</td><td>Retro Owner</td></tr>
 </table>
-<div class="alert-card">📊 <strong>Retrograde Scoring:</strong> Incidents are graded on data completeness in Rootly. Automated detection = more points. Grades are reported to leadership.</div>`
-  },
-
-  mitigate_vs_resolve: {
-    keywords: ['mitigate','resolve','difference','mitigated vs','resolved vs','mitigation','resolution difference'],
-    answer: `<h3>Mitigated vs. Resolved</h3>
-<div class="step-card"><strong>Mitigated</strong> = Bleeding stopped, blast radius reduced, but <strong>root cause NOT yet fixed</strong>. This is a temporary state (e.g., rolled back a bad deploy).</div>
-<div class="step-card"><strong>Resolved</strong> = Root cause addressed, problem fixed with <strong>no expectation of recurrence</strong>. Must be stable for <strong>15+ minutes</strong>.</div>
-<div class="alert-card">⚠️ Don't mark as Resolved right after a rollback! Monitor for at least 15 minutes to confirm recovery before resolving.</div>
-<p><strong>Lifecycle:</strong> Declared → Triage → Active → <strong>Mitigated</strong> → <strong>Resolved</strong> → Pending Retro → Pending LSR → Done</p>`
-  },
-
-  schedule: {
-    keywords: ['schedule','rotation','shift','when am i on','cadence','monday','weekly','primary','secondary','swap','pto','override','pager'],
-    answer: `<h3>IC Rotation Schedule</h3>
-<div class="step-card"><strong>Cadence:</strong> 7-day weekly shift, Monday → Monday, 9:00 AM → 9:00 AM</div>
-<div class="step-card"><strong>Roles:</strong> Primary IC + Secondary IC</div>
-<div class="step-card"><strong>First shifts:</strong> Noah Rowland (week 1, shadow) → Noah Weinthal (week 2, reverse shadow) → then the rest of the cohort rotates</div>
-<p><strong>PTO / Conflicts:</strong></p>
-<ul>
-<li>You're responsible for PagerDuty overrides</li>
-<li>Coordinate swaps with the secondary IC</li>
-<li>If on-call AND IC simultaneously → swap one role or delegate IC to secondary</li>
-</ul>
-<div class="alert-card">🏥 <strong>Your well-being matters:</strong> "I need to step back" is valid. Communicate the handoff clearly in the Slack channel.</div>`
-  },
-
-  exercises: {
-    keywords: ['exercise','interactive','tabletop','login failure','fc package','fc deploy','total outage','scp','practice','scenario'],
-    answer: `<h3>Interactive Exercise Takeaways</h3>
-<p><strong>Exercise 1: SEV-1 Login Failure</strong></p>
-<div class="step-card">First step: <strong>Declare IC</strong>, NOT troubleshoot. If it impacts the business, declare it. After rollback, monitor lagging indicators. Never watch in silence.</div>
-<p><strong>Exercise 2: FC Package Deploy (Friday 3:30 PM)</strong></p>
-<div class="step-card">Don't deploy 2 weeks of bundled changes on a Friday afternoon. Need platform-specific alerts (mobile web was missed). This was caught by luck, not structure.</div>
-<p><strong>Exercise 3: 16-Min Total Outage (SCP Removal)</strong></p>
-<div class="step-card">Every team paged → centralize, find shared upstream cause. SCPs are high-risk. Need strict change management + approval gates for core infrastructure changes.</div>
-<div class="alert-card">📚 Practice all 12 exercises in the <a href="https://fantastic-adventure-y7yw7y9.pages.github.io/" target="_blank">training slide deck</a>!</div>`
-  },
-
-  onboarding: {
-    keywords: ['onboarding','next steps','checklist','getting started','prepare','ready','shadow','what now','new ic','start'],
-    answer: `<h3>Your Onboarding Checklist</h3>
-<div class="step-card">
-<ol>
-<li>✅ Review the <a href="https://fantastic-adventure-y7yw7y9.pages.github.io/" target="_blank">training slide deck</a> (all slides + interactive exercises)</li>
-<li>✅ Read Session <a href="https://docs.google.com/document/d/1i-sfiPB8GZiyvW7mZDrmxnq3Vw-lupeVj-c250utlVk/edit?tab=t.gvybp59rhjpy" target="_blank">#1</a>, <a href="https://docs.google.com/document/d/1lOUGu4ZamaZLtss-JFIHB-JOs0xnXMy2H7I5NI-g7Pc/edit?tab=t.le3910nsieop" target="_blank">#2</a>, and <a href="https://docs.google.com/document/d/1wH7MxN5_ojMkRNeQWC0Ix6QwLTkNWZ2UEdq-FGfA-OM/edit?tab=t.v7pdxdq88tot" target="_blank">#3</a> notes</li>
-<li>⬜ Confirm your Rootly seat &amp; PagerDuty access</li>
-<li>⬜ Try <code>/incident new</code> in a test Slack channel</li>
-<li>⬜ Practice the tabletop exercises</li>
-<li>⬜ Shadow an IC shift (observe Noah R. or Noah W.)</li>
-<li>⬜ Reverse shadow (you lead, senior IC watches)</li>
-<li>⬜ Go live on the weekly rotation</li>
-<li>⬜ Keep Miro board updated for your team</li>
-<li>⬜ Make your team go through Rootly exercise</li>
-</ol>
-</div>`
+<div class="step-card"><strong>Schedule the Retro:</strong> Use <code>/incident workflows schedule-retro</code> for SEV1/2. SEV3 is async (no meeting required unless leadership requests one).</div>
+<div class="alert-card">&#x23F0; <strong>14-day SLA:</strong> Exceeding the 14-day OUT ticket deadline notifies Engineering Leadership via the weekly scorecard. Don't let tickets go stale!</div>`
   },
 
   communication: {
-    keywords: ['communication','communicate','update','exec summary','executive summary','boilerplate','announce','slack etiquette','etiquette','message','template'],
-    answer: `<h3>Communication Standards</h3>
-<div class="step-card"><strong>IC Announcement Template:</strong><br><em>"I'm taking over as Incident Commander. Here's what we're seeing: [impact summary]. We need [SMEs/teams]. Current status: [investigating/mitigating]. Next update in 30 minutes."</em></div>
-<p><strong>The Rule:</strong> Main Channel = IC Updates Only → Threads = Everything Else</p>
-<p><strong>Main channel posts:</strong></p>
+    keywords: ['communication','communicate','update','template','announce','slack etiquette','etiquette','message template','ic opening','hourly update','status update','executive update'],
+    answer: `<h3>Communication Templates</h3>
+<div class="step-card"><strong>IC Opening Message Template:</strong><br>
+<em>"I'm taking over as Incident Commander.<br>
+<strong>Severity:</strong> [SEV-1/2/3]<br>
+<strong>Impact:</strong> [what's broken, who's affected]<br>
+<strong>Status:</strong> [investigating/mitigating]<br>
+<strong>SME needed:</strong> [teams to page]<br>
+<strong>Status page:</strong> [yes/no, what message]<br>
+Next update in 30 minutes."</em></div>
+<div class="step-card"><strong>Hourly Update Template:</strong><br>
+<em>"<strong>Status:</strong> [investigating/mitigating/monitoring]<br>
+<strong>What we know:</strong> [current understanding]<br>
+<strong>What we're doing:</strong> [active remediation steps]<br>
+<strong>Blast radius:</strong> [who/what is affected]<br>
+<strong>Next update:</strong> [time]"</em></div>
+<div class="step-card"><strong>Mitigation Announcement:</strong><br>
+<em>"Incident mitigated.<br>
+<strong>What was done:</strong> [action taken]<br>
+<strong>Remaining risk:</strong> [any ongoing concerns]<br>
+<strong>Status page:</strong> [updated to mitigated]<br>
+<strong>Next steps:</strong> [root cause investigation, monitoring]"</em></div>
+<div class="step-card"><strong>Resolution Announcement:</strong><br>
+<em>"Incident resolved.<br>
+<strong>Root cause:</strong> [brief description]<br>
+<strong>Total duration:</strong> [time from detection to resolution]<br>
+<strong>Action items:</strong> [count and summary]<br>
+<strong>Retro:</strong> [owner and timeline]"</em></div>
+<p><strong>Executive Update Templates:</strong></p>
+<div class="step-card"><strong>During Active SEV1:</strong> Provide severity, impact scope, current actions, ETA for mitigation, who is engaged.</div>
+<div class="step-card"><strong>Post-Resolution Summary:</strong> Root cause, duration, patient/booking impact, mitigation actions taken, follow-up action items.</div>
+<div class="alert-card">&#x1F4E2; <strong>Status Page Templates:</strong><br>
+Investigating: <em>"Patients may be unable to complete bookings. We are investigating."</em><br>
+Mitigated: <em>"The issue has been identified and a fix is in progress."</em><br>
+Resolved: <em>"This issue has been resolved. All systems are operating normally."</em></div>`
+  },
+
+  roles: {
+    keywords: ['roles','all roles','incident roles','sme','comms lead','communications lead','scribe','retro owner','role assignment','staffing','minimum staffing','who does what'],
+    answer: `<h3>Incident Roles &amp; Responsibilities</h3>
+<table>
+<tr><th>Role</th><th>Responsibilities</th><th>Assigned When</th></tr>
+<tr><td><strong>IC</strong></td><td>Coordination, severity, rollback decisions, status page, exec summary, assigning roles, action items. Does NOT debug or write the retro.</td><td>Immediately &mdash; announce + assign in Rootly</td></tr>
+<tr><td><strong>SME</strong></td><td>Technical investigation, root cause analysis, executing fix, reporting findings to IC. One SME per impacted team.</td><td>Within 5 min via <code>/incident escalate</code></td></tr>
+<tr><td><strong>Comms Lead</strong></td><td>Writes/posts status page updates, monitors support volume, patient-friendly messaging. Gets IC approval before posting.</td><td>When status page update is needed</td></tr>
+<tr><td><strong>Scribe</strong></td><td>Pins messages with 📌, captures timestamps, builds timeline. No prose needed &mdash; just capture key events.</td><td>SEV1 or complex incidents. Must be someone NOT debugging.</td></tr>
+<tr><td><strong>Retro Owner</strong></td><td>Writes retro doc in Confluence, leads root cause analysis, runs retro meeting, creates Jira action items. Timelines: 5 biz days (doc), 1 week (meeting), 2 weeks (LSR).</td><td>Before or after resolution</td></tr>
+</table>
+<p><strong>Minimum Staffing Matrix:</strong></p>
+<table>
+<tr><th>Role</th><th>SEV1</th><th>SEV2</th><th>SEV3</th></tr>
+<tr><td>IC</td><td>Required</td><td>Required</td><td>Required</td></tr>
+<tr><td>SME</td><td>Required</td><td>Required</td><td>Required</td></tr>
+<tr><td>Comms Lead</td><td>Required</td><td>Optional</td><td>&mdash;</td></tr>
+<tr><td>Scribe</td><td>Recommended</td><td>Optional</td><td>&mdash;</td></tr>
+<tr><td>Retro Owner</td><td>Required</td><td>Required</td><td>Optional</td></tr>
+</table>
+<div class="alert-card">&#x1F4A1; <strong>Key Rule:</strong> The IC coordinates but does NOT investigate. The SME investigates but does NOT coordinate. Keep these roles separate for effective response.</div>`
+  },
+
+  retro: {
+    keywords: ['retro','retrospective','retro meeting','retro guide','post-incident retro','blameless','retro format','retro doc','good retro','bad retro','retro timeline'],
+    answer: `<h3>Post-Incident Retro Guide</h3>
+<p>Retrospectives are <strong>blameless</strong> &mdash; focused on process improvement, not blame.</p>
+<p><strong>When Required:</strong></p>
 <ul>
-<li>Status updates from IC</li>
-<li>Severity changes (with justification)</li>
-<li>Escalation requests</li>
-<li>Key decisions</li>
+<li><strong>SEV1:</strong> Meeting + doc required</li>
+<li><strong>SEV2:</strong> Meeting + doc required</li>
+<li><strong>SEV3:</strong> At leadership discretion (usually doc-only, async)</li>
 </ul>
-<p><strong>Threads only:</strong> Investigation details, debugging, log traces</p>
-<div class="alert-card">🔇 <strong>If radio silence > 30 min:</strong> Push for updates. Ask: "What's the status? What are we investigating?" Screenshots of dashboards help provide context.</div>
-<p><strong>Google Meet etiquette:</strong> Everything discussed on the call MUST be transcribed into the Slack channel. Context on video calls is lost forever if not captured.</p>`
+<p><strong>Meeting Format (30&ndash;45 min):</strong></p>
+<div class="step-card"><strong>1. Set the Tone (2 min)</strong> &mdash; Emphasize blameless culture</div>
+<div class="step-card"><strong>2. Timeline Walkthrough (10 min)</strong> &mdash; Detection &rarr; IC engaged &rarr; Investigation &rarr; Mitigation &rarr; Resolution. Key question: <em>Where were the biggest time gaps?</em></div>
+<div class="step-card"><strong>3. Root Cause Analysis (10 min)</strong> &mdash; Was it code defect, config change, capacity issue, dependency failure, or process gap? Is this a repeat incident? Why didn't existing safeguards prevent it?</div>
+<div class="step-card"><strong>4. Detection &amp; Response Review (5 min)</strong> &mdash; Was detection automated or manual? What was TTD (time to detect) and TTM (time to mitigate)? Was SLA met?</div>
+<div class="step-card"><strong>5. Impact Assessment (5 min)</strong> &mdash; Booking and customer impact. How many patients affected? Was status page timing appropriate?</div>
+<div class="step-card"><strong>6. Action Items (10 min)</strong> &mdash; Define: what, who, when, where (Jira). Types: fix root cause, add monitoring, add safeguards, update runbooks, improve testing. Worth <strong>25 pts</strong> on retro grade!</div>
+<div class="step-card"><strong>7. Close (3 min)</strong> &mdash; Confirm action items in Jira, retro doc complete, OUT ticket updated.</div>
+<p><strong>Attendees:</strong> Retro Owner, IC, SMEs, EMs, Engineering Leadership (SEV1), PX/ProvX if customer-impacting.</p>
+<div class="alert-card">&#x2705; <strong>Good retro:</strong> Blameless, specific, actionable, time-bound, complete.<br>
+&#x274C; <strong>Bad retro:</strong> "Be more careful," no action items, root cause listed as "unknown," meeting skipped, action items never completed.</div>`
+  },
+
+  executive_summary: {
+    keywords: ['executive summary','exec summary','how to write summary','summary quality','leadership update','summary examples','what broke'],
+    answer: `<h3>The Executive Summary</h3>
+<p>A macro-level view of the incident for Engineering Leadership. Owned by the <strong>IC during the incident</strong> and the <strong>Retro Owner after</strong>.</p>
+<p><strong>Update Cadence:</strong></p>
+<ul>
+<li><strong>SEV1/2:</strong> Update with every significant change, at least hourly</li>
+<li><strong>SEV3:</strong> Within 24 hours (72 hours on weekends)</li>
+</ul>
+<p><strong>What to Include:</strong></p>
+<ul>
+<li>What broke and why</li>
+<li>Who was impacted (patients, providers, internal)</li>
+<li>How many affected and for how long</li>
+<li>Booking/revenue/brand impact</li>
+<li>How it was detected</li>
+<li>Mitigation actions taken</li>
+<li>Resolution details</li>
+<li>Root cause</li>
+</ul>
+<p><strong>Zocdoc Examples:</strong></p>
+<div class="step-card"><strong>SEV1 Booking API:</strong> <em>"At 2:15 PM ET, the booking confirmation service began returning 500 errors. 100% of bookings failed for 47 minutes. Root cause: misconfigured DB connection pool (pool size set to 1 instead of 100). Rolled back at 3:02 PM ET."</em></div>
+<div class="step-card"><strong>SEV2 Insurance Filter:</strong> <em>"Starting 10:30 AM, NJ patients using insurance filters received empty results. ~15% of NJ queries affected. Caused by stale carrier mapping from a data migration. Corrected at 11:45 AM."</em></div>
+<div class="step-card"><strong>How to add:</strong> Click <strong>Update</strong> in the Rootly pinned workflow &rarr; Executive Summary field. Syncs to retro doc automatically until mitigated/resolved.</div>
+<div class="alert-card">&#x1F3AF; <strong>Quality bar:</strong> The summary should be understandable by someone who was NOT in the incident channel. If they can't understand what happened from your summary alone, it needs more detail.</div>`
+  },
+
+  observability: {
+    keywords: ['observability','datadog','honeycomb','monitoring','alerts','logs','dashboard','traces','sli','slo','golden signals','apm','metrics','error rate','latency'],
+    answer: `<h3>Observability Tools Reference</h3>
+<table>
+<tr><th>Tool</th><th>Purpose</th></tr>
+<tr><td><strong>Datadog</strong></td><td>Metrics, logs, dashboards, alerting, APM traces</td></tr>
+<tr><td><strong>Honeycomb</strong></td><td>Distributed tracing</td></tr>
+<tr><td><strong>PagerDuty</strong></td><td>Alert routing, on-call schedules, escalation policies</td></tr>
+<tr><td><strong>Rootly</strong></td><td>Incident management, Slack integration, retro docs</td></tr>
+</table>
+<p><strong>Golden Signals (per-service dashboards):</strong></p>
+<ul>
+<li><strong>Error Rate</strong> &mdash; % of requests returning errors</li>
+<li><strong>Latency</strong> &mdash; p50 / p95 / p99 response times</li>
+<li><strong>Throughput</strong> &mdash; Requests per second</li>
+<li><strong>Saturation</strong> &mdash; CPU, memory, connection pool usage</li>
+</ul>
+<p><strong>During an Incident &mdash; Quick Reference:</strong></p>
+<div class="step-card"><strong>Service health?</strong> &rarr; Check Datadog dashboard for the team</div>
+<div class="step-card"><strong>Why is it failing?</strong> &rarr; APM traces + logs in Datadog</div>
+<div class="step-card"><strong>Alert fired?</strong> &rarr; Check monitors in Datadog + PagerDuty</div>
+<div class="step-card"><strong>Need to page a team?</strong> &rarr; <code>/incident escalate</code></div>
+<div class="step-card"><strong>Investigating an error?</strong> &rarr; Logs filter: <code>status:error</code> + incident time window</div>
+<div class="step-card"><strong>Trace a request?</strong> &rarr; Trace ID from logs &rarr; APM distributed trace</div>
+<div class="step-card"><strong>Error budget?</strong> &rarr; SLOs in Datadog</div>
+<p><strong>Best Practices:</strong></p>
+<ul>
+<li>Each team should have dashboards for their services</li>
+<li>Create monitors for error rates, latency p99, throughput drops, resource utilization</li>
+<li>Every critical alert should have a runbook linked</li>
+<li>Use structured logs sent to Datadog, searchable by service/level/time</li>
+<li>Define SLIs/SLOs per service and track error budget burn</li>
+</ul>`
+  },
+
+  schedule: {
+    keywords: ['schedule','rotation','shift','when am i on','cadence','primary','secondary','swap','pto','override','pager','ic rotation','pagerduty schedule','absence'],
+    answer: `<h3>IC Rotation &amp; Schedule</h3>
+<div class="step-card"><strong>Structure:</strong> Primary IC + Secondary IC on every shift</div>
+<div class="step-card"><strong>Eligibility:</strong> EMs &amp; Senior+ engineers with 6+ months at Zocdoc. Mid-level engineers with manager approval.</div>
+<div class="step-card"><strong>Shifts:</strong> 24 hours, 9:00 AM &rarr; 9:00 AM ET. You'll get a reminder 24&ndash;48 hours before your shift.</div>
+<div class="step-card"><strong>Rotation:</strong> Each department defines its own rotation in PagerDuty. Primary IC is paged first &rarr; Secondary IC &rarr; Engineering Leadership.</div>
+<p><strong>Absences &amp; Swaps:</strong></p>
+<table>
+<tr><th>Situation</th><th>Action</th></tr>
+<tr><td>Short absence (&lt;2 hours)</td><td>Let your counterpart (Primary/Secondary) know</td></tr>
+<tr><td>Extended absence (&gt;2 hours)</td><td>Swap the shift with another IC</td></tr>
+</table>
+<p><strong>How to Swap:</strong></p>
+<ol>
+<li>Post in the IC Slack channel requesting a swap</li>
+<li>If no takers, escalate to your manager/director</li>
+<li>Create a <strong>PagerDuty override</strong> (the person currently on the schedule creates it)</li>
+</ol>
+<div class="alert-card">&#x1F3E5; <strong>Your well-being matters:</strong> "I need to step back" is always valid. Communicate the handoff clearly and ensure coverage.</div>`
+  },
+
+  out_ticket: {
+    keywords: ['out ticket','out','outage ticket','jira ticket','ticket lifecycle','ticket sla','ticket fields','out fields','what is out'],
+    answer: `<h3>OUT (Outage) Tickets</h3>
+<p>The OUT ticket is the <strong>final source of truth</strong> for all incident data, created in Jira.</p>
+<div class="step-card"><strong>How OUT tickets are created:</strong>
+<ul>
+<li><code>/incident new</code> &mdash; Rootly auto-creates it</li>
+<li>Backfill directly in Jira</li>
+<li>CS escalation pathway</li>
+</ul></div>
+<p><strong>Key Fields:</strong></p>
+<ul>
+<li>Severity, IC, EM, Department</li>
+<li>Executive Summary, Root Cause</li>
+<li>Detection Method, Booking Impact, Customer Impact</li>
+<li>Retro Grade, Action Items</li>
+</ul>
+<p><strong>Ticket Lifecycle:</strong></p>
+<div class="step-card"><strong>Incident Declared</strong> &rarr; <strong>In Progress</strong> &rarr; <strong>Pending Retrospective</strong> &rarr; <strong>Pending Action Items</strong> &rarr; <strong>Done</strong></div>
+<div class="alert-card">&#x23F0; <strong>SLA: 14 days</strong> to move the OUT ticket to Done. Exceeding this deadline notifies Engineering Leadership via the weekly scorecard. Make sure the retro doc is complete and action items are linked before closing.</div>`
+  },
+
+  status_page: {
+    keywords: ['status page','system status','patient communication','status update','when to post','status cadence','status template','zocdoc status'],
+    answer: `<h3>Zocdoc System Status Page</h3>
+<p>The status page communicates real-time system health to patients and providers. The <strong>IC makes the final call</strong> on whether to post. The <strong>Communications Lead</strong> writes and posts the updates.</p>
+<p><strong>When to Post:</strong></p>
+<ul>
+<li><strong>SEV1:</strong> Core flows impacted (booking, search) &mdash; always post</li>
+<li><strong>SEV2:</strong> Significant subset of users impacted &mdash; usually post</li>
+<li>High-visibility issues or high support volume</li>
+</ul>
+<p><strong>Update Cadence:</strong></p>
+<table>
+<tr><th>Phase</th><th>Frequency</th></tr>
+<tr><td>Investigating</td><td>Every 15 minutes</td></tr>
+<tr><td>After Mitigation</td><td>Every hour</td></tr>
+<tr><td>Resolved</td><td>Final update</td></tr>
+</table>
+<p><strong>Do:</strong></p>
+<ul>
+<li>Use clear, patient-friendly language</li>
+<li>Keep updates current and timely</li>
+<li>Communicate mitigated and resolved states</li>
+</ul>
+<div class="alert-card">&#x1F6AB; <strong>Don't:</strong>
+<ul>
+<li>Use technical jargon</li>
+<li>Let updates go stale</li>
+<li>Speculate on root cause</li>
+<li>Mention security incidents, vendor names, or infrastructure details</li>
+<li>Say "the whole site is down" if only a subset is affected</li>
+</ul></div>
+<p><strong>Template Examples:</strong></p>
+<div class="step-card"><em>"Patients may be unable to complete bookings at this time. Our team is actively investigating."</em></div>
+<div class="step-card"><em>"Some patients may experience slower search results. We have identified the issue and a fix is in progress."</em></div>`
+  },
+
+  service_lookup: {
+    keywords: ['service lookup','team lookup','who owns','which team','service escalation','escalation table','find team','em for','engineering manager','slack channel for','team for','marketplace','provider','infrastructure','data','appointments','practice solutions'],
+    answer: `<h3>Service Escalation Lookup</h3>
+<p><strong>Marketplace Teams:</strong></p>
+<table>
+<tr><th>Team</th><th>EM</th><th>Channel</th><th>Owns</th></tr>
+<tr><td>Patient Acquisition</td><td>Eugene Kaminsky</td><td>#marketplace-growth-devs</td><td>SEO/SEM, homepage, listing, profile, patient growth</td></tr>
+<tr><td>Booking</td><td>Anand Sundaram</td><td>#booking-team-open</td><td>Booking UI+backend, appointment events, post-booking, insurance</td></tr>
+<tr><td>Patient Retention</td><td>Eugene Kaminsky</td><td>#marketplace-growth-devs</td><td>App homepage, reviews, patient NPS</td></tr>
+<tr><td>Search Relevance</td><td>Mike Locicero</td><td>#search-devs</td><td>Search algorithm (Maple), filters, triage, geolocation, timesgrid</td></tr>
+<tr><td>Sponsored Results</td><td>Abigail Shchur</td><td>#spo-tech-team</td><td>SPO algorithm, budget, billing</td></tr>
+<tr><td>Marketplace Insurance</td><td>&mdash;</td><td>#marketplace-insurance-public</td><td>Eligibility API, insurance card scanner</td></tr>
+</table>
+<p><strong>Provider Teams:</strong></p>
+<table>
+<tr><th>Team</th><th>EM</th><th>Channel</th><th>Owns</th></tr>
+<tr><td>Provider Billing</td><td>John Penner</td><td>#practice-billing-team</td><td>Billing zocrons/tooling/settings</td></tr>
+<tr><td>Account &amp; User Setup</td><td>Rashmi</td><td>#provider-user-permissions-vibes</td><td>Smartform, join pages, provider auth</td></tr>
+<tr><td>Provider Onboarding</td><td>Rashmi</td><td>#provider-onboarding-team</td><td>Practice home, marketplace self-activation</td></tr>
+<tr><td>Provider Roster Mgmt</td><td>Avinash</td><td>#provider-roster-management</td><td>Location/photo settings, search score</td></tr>
+<tr><td>Provider Infrastructure</td><td>Priyanka Ahirwar</td><td>#provider-infrastructure</td><td>Document services, Salesforce syncs</td></tr>
+<tr><td>Interop Platform</td><td>Rohish</td><td>#tech-interop</td><td>Sync booking/availability, EHR scanner</td></tr>
+<tr><td>Interop Enablement</td><td>Stirpe</td><td>#tech-interop</td><td>Sync connectors, external API</td></tr>
+<tr><td>Provider Preferences</td><td>Anchal Dube</td><td>#provider-preferences-vibes</td><td>Insurance settings, PIMS</td></tr>
+</table>
+<p><strong>Appointments:</strong></p>
+<table>
+<tr><th>Team</th><th>EM</th><th>Channel</th><th>Owns</th></tr>
+<tr><td>Appointment &amp; Post-Appointment</td><td>Andy Depenbusch</td><td>#appointment-post-appt-team</td><td>Appointment reminders, post-appointment flows</td></tr>
+</table>
+<p><strong>Practice Solutions:</strong></p>
+<table>
+<tr><th>Team</th><th>EM</th><th>Channel</th><th>Owns</th></tr>
+<tr><td>Scheduling</td><td>William Archer</td><td>#scheduling</td><td>Book Online Button, Reserve with Google/Bing/Apple</td></tr>
+<tr><td>Zo Phone AI</td><td>Niklas Studer</td><td>#phonebot</td><td>Phone AI assistant</td></tr>
+<tr><td>Appointment Management</td><td>Elizabeth</td><td>#appointment-mgmt-team</td><td>Availability, provider calendar, inbox</td></tr>
+</table>
+<p><strong>Data:</strong></p>
+<table>
+<tr><th>Team</th><th>EM</th><th>Channel</th><th>Owns</th></tr>
+<tr><td>Data Engineering</td><td>Dafi Khadafi</td><td>#data-engineering</td><td>Cistern, DBT, Dagster</td></tr>
+<tr><td>Analytics Engineering</td><td>Conor Camp</td><td>#analytics-engineering</td><td>Amplitude, Looker</td></tr>
+</table>
+<p><strong>Infrastructure:</strong></p>
+<table>
+<tr><th>Team</th><th>EM</th><th>Channel</th><th>Owns</th></tr>
+<tr><td>Auth</td><td>Noah Weinthal</td><td>#auth</td><td>Auth0, OAuth, patient SSO, CCPA</td></tr>
+<tr><td>Messaging</td><td>Noah Weinthal</td><td>#messaging-platform-open-chat</td><td>Braze, Twilio</td></tr>
+<tr><td>Mobile Platform</td><td>Ryan Allen</td><td>#mobile-platform</td><td>iOS/Android</td></tr>
+<tr><td>Web Platform</td><td>Ryan Allen</td><td>#javascript-platform</td><td>FE libraries, GQL, FROMO</td></tr>
+<tr><td>Dev Platform</td><td>Trent</td><td>#platform</td><td>CI/CD, TeamCity, Honeycomb, Sentry, Plinth, Pants</td></tr>
+<tr><td>SRE</td><td>Noah Rowland</td><td>#reliability-engineering</td><td>AWS, edge/routing, Datadog, incident mgmt</td></tr>
+<tr><td>DBRE</td><td>Noah Rowland</td><td>#reliability-engineering</td><td>SQL servers, RDS</td></tr>
+<tr><td>Networking</td><td>Niket Shah</td><td>#reliability-engineering</td><td>Network infrastructure</td></tr>
+<tr><td>IT Support</td><td>Susie Cloud / Vikas Chaturvedi</td><td>#help-it</td><td>IT support</td></tr>
+</table>
+<div class="alert-card">&#x1F4A1; <strong>How to use:</strong> Identify the impacted service &rarr; <code>/incident escalate</code> &rarr; select the service. Unsure? Check the <a href="https://miro.com/app/board/uXjVLabPvW4=/" target="_blank">Miro dashboard</a> or page the department EM. For cross-team issues, page multiple teams &mdash; don't wait.</div>`
+  },
+
+  onboarding: {
+    keywords: ['onboarding','next steps','checklist','getting started','prepare','ready','shadow','what now','new ic','start','new to ic','first time'],
+    answer: `<h3>New IC Onboarding Checklist</h3>
+<div class="step-card">
+<ol>
+<li>&#x2705; Review all training materials in the <a href="https://github.com/Zocdoc/incident-command-training/" target="_blank">incident-command-training repo</a></li>
+<li>&#x2705; Read the <a href="https://fantastic-adventure-y7yw7y9.pages.github.io/" target="_blank">training slide deck</a></li>
+<li>&#x2B1C; Confirm your <strong>Rootly seat</strong> &mdash; can you access Rootly in Slack?</li>
+<li>&#x2B1C; Confirm your <strong>PagerDuty access</strong> &mdash; are you on an IC schedule?</li>
+<li>&#x2B1C; Try <code>/incident new</code> in a test Slack channel</li>
+<li>&#x2B1C; Familiarize yourself with <strong>Datadog dashboards</strong> for your team</li>
+<li>&#x2B1C; Review the <a href="https://miro.com/app/board/uXjVLabPvW4=/" target="_blank">Engineering Org Miro board</a> (team &rarr; service mapping)</li>
+<li>&#x2B1C; Practice the emoji workflows: 📌 pin, &#x2B50; star, 📝 memo</li>
+<li>&#x2B1C; Know how to escalate: <code>/incident escalate</code> and the Escalate button</li>
+<li>&#x2B1C; Shadow an experienced IC during a real incident</li>
+<li>&#x2B1C; Reverse shadow &mdash; you lead, experienced IC observes</li>
+<li>&#x2B1C; Go live on the IC rotation</li>
+</ol>
+</div>
+<div class="alert-card">&#x1F4A1; <strong>Key resources to bookmark:</strong><br>
+&bull; <a href="https://github.com/Zocdoc/incident-command-training/" target="_blank">incident-command-training repo</a> (all guides)<br>
+&bull; <a href="https://miro.com/app/board/uXjVLabPvW4=/" target="_blank">Engineering Org Miro board</a> (who owns what)<br>
+&bull; #incidents Slack channel (active incidents &amp; digests)<br>
+&bull; PagerDuty (your schedule &amp; on-call)</div>`
+  },
+
+  mitigate_vs_resolve: {
+    keywords: ['mitigate','resolve','difference','mitigated vs','resolved vs','mitigation','resolution difference','mitigate vs resolve'],
+    answer: `<h3>Mitigated vs. Resolved</h3>
+<div class="step-card"><strong>Mitigated</strong> = Bleeding stopped, blast radius reduced, but <strong>root cause NOT yet fixed</strong>. This is a temporary state.<br>
+<strong>Examples:</strong> Rolled back a bad deploy, disabled a feature flag, failed over to backup service.<br>
+<strong>SLA target:</strong> SEV1 within 1 hour, SEV2 within 4 hours.</div>
+<div class="step-card"><strong>Resolved</strong> = Root cause addressed, problem fixed, metrics back to normal, <strong>exit criteria met</strong>. Confirmed with all responders. No expectation of recurrence.</div>
+<p><strong>Key Differences:</strong></p>
+<table>
+<tr><th>Aspect</th><th>Mitigated</th><th>Resolved</th></tr>
+<tr><td>Root cause fixed?</td><td>No</td><td>Yes</td></tr>
+<tr><td>Patient impact?</td><td>Reduced/stopped</td><td>Fully gone</td></tr>
+<tr><td>Can recur?</td><td>Yes</td><td>No</td></tr>
+<tr><td>Rootly command</td><td><code>/incident mitigate</code></td><td><code>/incident resolve</code></td></tr>
+<tr><td>Status page</td><td>Update to "Identified/Mitigated"</td><td>Update to "Resolved"</td></tr>
+</table>
+<div class="alert-card">&#x26A0;&#xFE0F; <strong>Don't mark Resolved right after a rollback!</strong> A rollback is mitigation. Confirm metrics are stable, exit criteria are met, and responders agree before resolving.</div>
+<p><strong>After Mitigation:</strong> Update executive summary, update status page, continue investigating root cause, post updates every 30&ndash;60 min.</p>
+<p><strong>After Resolution:</strong> Final executive summary, final status page update, create follow-up action items (📝), assign retro owner, schedule retro.</p>`
   },
 
   handoff: {
-    keywords: ['handoff','hand off','transfer','tired','fatigue','step back','long running','long incident','secondary take'],
-    answer: `<h3>IC Handoff &amp; Fatigue</h3>
+    keywords: ['handoff','hand off','transfer','tired','fatigue','step back','long running','long incident','secondary take','ic handoff','handoff process','incoming ic'],
+    answer: `<h3>IC Handoff Process</h3>
 <div class="step-card"><strong>When to hand off:</strong>
 <ul>
-<li>You've been on for extended hours and feel fatigued</li>
-<li>You need to step back for personal reasons</li>
-<li>You have a conflicting on-call responsibility</li>
+<li>Extended hours and feeling fatigued</li>
+<li>Personal reasons or conflicting responsibilities</li>
+<li>Shift change (end of your 24-hour rotation)</li>
+<li>Better-suited IC available for the specific domain</li>
 </ul></div>
-<div class="step-card"><strong>How to hand off:</strong>
-<ol>
-<li>Announce in the Slack channel: <em>"Handing off IC to [secondary]. Here's current status: [summary]."</em></li>
-<li>The secondary self-assigns as IC via Assign Roles</li>
-<li>Ensure all context is documented in the channel</li>
-</ol></div>
-<div class="alert-card">💚 <strong>"I need to step back"</strong> is always valid. Your health matters. Just communicate clearly and document the handoff.</div>`
+<p><strong>Handoff Steps:</strong></p>
+<div class="step-card"><strong>Step 1:</strong> Brief the incoming IC on: current severity, what's been tried, who's engaged, current status, outstanding action items, exit criteria.</div>
+<div class="step-card"><strong>Step 2:</strong> Announce in the incident channel: <em>"Handing off IC to [name]. They are now the Incident Commander."</em></div>
+<div class="step-card"><strong>Step 3:</strong> Incoming IC announces: <em>"I'm taking over as IC."</em> &mdash; assigns themselves as IC in Rootly and requests a status update from all active SMEs.</div>
+<div class="alert-card">&#x1F49A; <strong>"I need to step back"</strong> is always valid. Your health and well-being come first. Communicate the handoff clearly in the Slack channel and ensure all context is documented.</div>`
   },
 
-  cohort: {
-    keywords: ['cohort','members','who','team','elected','chosen','people','list'],
-    answer: `<h3>Cohort #1 Members</h3>
-<p>Selected based on senior director recommendations &mdash; "the cream of the crop":</p>
-<ul>
-<li>Hank Bao</li>
-<li>Noah Rowland</li>
-<li>Mukesh Chhatani</li>
-<li>Noah Weinthal</li>
-<li>Brandie Burditt (original sole IC)</li>
-<li>Janice Cheung (training lead)</li>
-<li>Rohish Deshmukh</li>
-<li>Elizabeth Ford</li>
-<li>James Collins (volunteer)</li>
-<li>Chris Smith</li>
-<li>John Penner</li>
-<li>Mustafa Rizvi</li>
-</ul>
-<p>Cohort #2 will be identified after Cohort #1 completes their first rotation.</p>`
+  retro_grade: {
+    keywords: ['retro grade','retrograde','scoring','grade','grading','how to get an a','retro score','retro points','scorecard','grade breakdown'],
+    answer: `<h3>Retro Grade Scoring Breakdown</h3>
+<p>Every incident gets a retro grade (A/B/C/D) based on data completeness and process adherence.</p>
+<table>
+<tr><th>Category</th><th>Points</th><th>What It Measures</th></tr>
+<tr><td><strong>Action Items Created</strong></td><td>25 pts</td><td>Were meaningful follow-ups identified?</td></tr>
+<tr><td><strong>Root Cause Documented</strong></td><td>20 pts</td><td>Is the root cause clearly explained?</td></tr>
+<tr><td><strong>Time to Mitigation vs SLA</strong></td><td>15 pts</td><td>Did you meet the mitigation SLA?</td></tr>
+<tr><td><strong>Time to Detection</strong></td><td>10 pts</td><td>How quickly was the issue detected?</td></tr>
+<tr><td><strong>Detection Method Logged</strong></td><td>10 pts</td><td>Was the detection method recorded?</td></tr>
+<tr><td><strong>Impact Assessed</strong></td><td>10 pts</td><td>Booking impact + customer impact type documented</td></tr>
+<tr><td><strong>Action Items Completed</strong></td><td>5 pts</td><td>Were the action items actually finished?</td></tr>
+<tr><td><strong>Total</strong></td><td><strong>100 pts</strong></td><td></td></tr>
+</table>
+<p><strong>Grade Scale:</strong></p>
+<table>
+<tr><th>Grade</th><th>Score</th></tr>
+<tr><td><strong>A</strong></td><td>80% and above (80+ pts)</td></tr>
+<tr><td><strong>B</strong></td><td>65&ndash;79%</td></tr>
+<tr><td><strong>C</strong></td><td>50&ndash;64%</td></tr>
+<tr><td><strong>D</strong></td><td>Below 50%</td></tr>
+</table>
+<div class="alert-card">&#x1F3AF; <strong>How to get an A:</strong> Create action items (25 pts), document root cause thoroughly (20 pts), mitigate within SLA (15 pts), log detection method as automated (10 pts), document impact (10 pts), log detection time (10 pts), and complete the action items (5 pts). That's 95/100!</div>
+<p><strong>Automated Reports:</strong> The Weekly Retro Grade Scorecard is posted to #incidents. EM DMs include your team's grades.</p>`
   },
 
-  lifecycle: {
-    keywords: ['lifecycle','life cycle','states','state','flow','triage','pending','done state'],
-    answer: `<h3>Incident Lifecycle States</h3>
-<div class="step-card">
-<strong>Declared</strong> → <strong>Triage</strong> → <strong>Active</strong> → <strong>Mitigated</strong> → <strong>Resolved</strong> → <strong>Pending Retro</strong> → <strong>Pending LSR</strong> → <strong>Pending Action Items</strong> → <strong>Done</strong>
-</div>
+  detection_method: {
+    keywords: ['detection method','detection','how detected','automated monitoring','customer report','internal report','detection score','detection points'],
+    answer: `<h3>Detection Method &amp; Scoring</h3>
+<p>How an incident was detected is a required field in Rootly and impacts your retro grade (10 points).</p>
+<table>
+<tr><th>Detection Method</th><th>Score</th><th>Description</th></tr>
+<tr><td><strong>Automated monitoring alert</strong></td><td>10/10</td><td>Datadog monitor, threshold alert, or anomaly detection fired automatically</td></tr>
+<tr><td><strong>Synthetic check</strong></td><td>10/10</td><td>Synthetic test (e.g., Datadog Synthetics) detected the failure</td></tr>
+<tr><td><strong>Internal user report</strong></td><td>7/10</td><td>A Zocdoc employee noticed the issue and reported it</td></tr>
+<tr><td><strong>Customer report</strong></td><td>7/10</td><td>A patient or provider reported the issue to support</td></tr>
+<tr><td><strong>Not logged</strong></td><td>0/10</td><td>Detection method was not recorded &mdash; automatic zero</td></tr>
+</table>
+<div class="alert-card">&#x1F4A1; <strong>Key takeaway:</strong> Automated detection scores highest (10/10). If your team's incidents are being detected by customers (7/10), that's a signal to invest in better monitoring and alerting. And ALWAYS log the detection method &mdash; "not logged" is an automatic 0.</div>
+<p><strong>Improving Detection:</strong></p>
 <ul>
-<li><strong>Mitigated:</strong> Blast radius reduced, root cause NOT fixed</li>
-<li><strong>Resolved:</strong> Root cause addressed, stable 15+ min</li>
-<li><strong>Pending Retro:</strong> Retro doc due in 5 biz days</li>
-<li><strong>Pending LSR:</strong> Live Site Review due in 2 weeks</li>
-</ul>
-<p>The Jira outage ticket progresses through these same states. Violations are reported to leadership.</p>`
+<li>Set up Datadog monitors for error rates, latency p99, throughput drops</li>
+<li>Add synthetic checks for critical user flows (booking, search)</li>
+<li>Link runbooks to every critical alert</li>
+<li>Define SLIs/SLOs per service and track error budget burn</li>
+</ul>`
+  },
+
+  cheat_sheet: {
+    keywords: ['cheat sheet','quick reference','commands','all commands','slack commands','command list','shortcut','quick start'],
+    answer: `<h3>Slack &amp; Rootly Cheat Sheet</h3>
+<p><strong>From Any Slack Channel:</strong></p>
+<table>
+<tr><th>Command</th><th>Action</th></tr>
+<tr><td><code>/incident new</code></td><td>Create a new incident (channel + Jira + PagerDuty)</td></tr>
+<tr><td><code>/incident list</code></td><td>See all active incidents</td></tr>
+<tr><td><code>/incident help</code></td><td>Show all available commands</td></tr>
+</table>
+<p><strong>From an Incident Channel:</strong></p>
+<table>
+<tr><th>Command</th><th>Action</th></tr>
+<tr><td><code>/incident</code></td><td>Show all commands for this incident</td></tr>
+<tr><td><code>/incident escalate</code></td><td>Page teams via PagerDuty</td></tr>
+<tr><td><code>/incident mitigate</code></td><td>Mark incident as mitigated</td></tr>
+<tr><td><code>/incident resolve</code></td><td>Mark incident as resolved</td></tr>
+<tr><td><code>/incident status</code></td><td>View current incident status</td></tr>
+<tr><td><code>/incident add action item</code></td><td>Create an action item</td></tr>
+<tr><td><code>/incident action items</code></td><td>List all action items</td></tr>
+<tr><td><code>/incident add service</code></td><td>Add an impacted service</td></tr>
+<tr><td><code>/incident statuspage</code></td><td>Update the status page</td></tr>
+<tr><td><code>/incident timeline &lt;note&gt;</code></td><td>Add a note to the timeline</td></tr>
+<tr><td><code>/incident timestamps</code></td><td>View incident timestamps</td></tr>
+<tr><td><code>/incident duplicate</code></td><td>Mark as duplicate of another incident</td></tr>
+<tr><td><code>/incident workflow</code></td><td>Run a workflow (e.g., schedule-retro)</td></tr>
+</table>
+<p><strong>Emoji Shortcuts:</strong></p>
+<table>
+<tr><th>Emoji</th><th>Effect</th></tr>
+<tr><td>📌</td><td>Add to timeline + &#x2705;</td></tr>
+<tr><td>&#x2B50;</td><td>Create action item + &#x2705;</td></tr>
+<tr><td>📝</td><td>Create follow-up action item + &#x2705;</td></tr>
+</table>
+<div class="step-card"><strong>Example Flow:</strong><br>
+<code>/incident new</code> &rarr; "Booking API returning 500s" &rarr; SEV1<br>
+<code>/incident escalate</code> &rarr; "Marketplace Engineering (Booking)"<br>
+<code>/incident add action item</code> &rarr; "Add circuit breaker to booking service"<br>
+<code>/incident statuspage</code> &rarr; "Booking Disruption"</div>`
   }
 };
 
@@ -668,11 +1077,14 @@ function addMessage(content, type, showQuickActions) {
   if (showQuickActions) {
     html += `<div class="quick-actions">
       <button class="quick-action-btn" onclick="askQuestion('What do I do during an incident?')">During Incident</button>
-      <button class="quick-action-btn" onclick="askQuestion('What are the severity levels?')">Severity &amp; SLAs</button>
+      <button class="quick-action-btn" onclick="askQuestion('What are the severity levels?')">Severity Levels</button>
       <button class="quick-action-btn" onclick="askQuestion('How do I use Rootly?')">Rootly Tooling</button>
-      <button class="quick-action-btn" onclick="askQuestion('How do emoji workflows work?')">Emoji Workflows</button>
       <button class="quick-action-btn" onclick="askQuestion('How do I escalate?')">Escalation</button>
-      <button class="quick-action-btn" onclick="askQuestion('What happens after an incident?')">After Incident</button>
+      <button class="quick-action-btn" onclick="askQuestion('What are the incident roles?')">Incident Roles</button>
+      <button class="quick-action-btn" onclick="askQuestion('Show me the service lookup table')">Service Lookup</button>
+      <button class="quick-action-btn" onclick="askQuestion('How does retro grading work?')">Retro Grades</button>
+      <button class="quick-action-btn" onclick="askQuestion('What is the status page process?')">Status Page</button>
+      <button class="quick-action-btn" onclick="askQuestion('Show me the Slack cheat sheet')">Cheat Sheet</button>
       <button class="quick-action-btn" onclick="askQuestion('What is my onboarding checklist?')">Onboarding</button>
     </div>`;
   }
@@ -725,13 +1137,16 @@ function findAnswer(input) {
 <div class="quick-actions">
   <button class="quick-action-btn" onclick="askQuestion('What is the IC role?')">IC Role</button>
   <button class="quick-action-btn" onclick="askQuestion('What do I do during an incident?')">During Incident</button>
-  <button class="quick-action-btn" onclick="askQuestion('What are the severity levels?')">Severity &amp; SLAs</button>
+  <button class="quick-action-btn" onclick="askQuestion('What are the severity levels?')">Severity Levels</button>
   <button class="quick-action-btn" onclick="askQuestion('How do I use Rootly?')">Rootly Tooling</button>
   <button class="quick-action-btn" onclick="askQuestion('How do I escalate?')">Escalation</button>
+  <button class="quick-action-btn" onclick="askQuestion('What are the incident roles?')">Incident Roles</button>
+  <button class="quick-action-btn" onclick="askQuestion('Show me the service lookup table')">Service Lookup</button>
   <button class="quick-action-btn" onclick="askQuestion('What happens after an incident?')">After Incident</button>
+  <button class="quick-action-btn" onclick="askQuestion('Show me the Slack cheat sheet')">Cheat Sheet</button>
   <button class="quick-action-btn" onclick="askQuestion('What is my onboarding checklist?')">Onboarding</button>
 </div>
-<p>Or check the full <a href="https://fantastic-adventure-y7yw7y9.pages.github.io/" target="_blank">training slide deck</a> for detailed content with images.</p>`;
+<p>Or check the <a href="https://github.com/Zocdoc/incident-command-training/" target="_blank">training repo</a> for the full source material.</p>`;
 }
 
 function sendMessage() {
@@ -772,18 +1187,23 @@ function handleKeyDown(e) {
 // Welcome message
 window.onload = () => {
   addMessage(
-    `<h3>Welcome to the Incident Commander Training Assistant! 👋</h3>
-<p>I'm here to help you with anything related to the <strong>Zocdoc Incident Commander Training</strong> program. Ask me about:</p>
+    `<h3>Welcome to the IC Training Assistant!</h3>
+<p>I'm your reference guide for <strong>Zocdoc Incident Commander</strong> training. Built from the <a href="https://github.com/Zocdoc/incident-command-training/" target="_blank">incident-command-training</a> repo, I can help you with:</p>
 <ul>
-<li>Your <strong>role &amp; responsibilities</strong> as an IC</li>
-<li><strong>Step-by-step guidance</strong> during an active incident</li>
-<li><strong>Severity definitions</strong> and SLAs</li>
-<li><strong>Rootly tooling</strong>, Slack commands, and emoji workflows</li>
-<li><strong>Escalation</strong> procedures and who to page</li>
-<li><strong>Post-incident</strong> retro and action items</li>
+<li><strong>IC role &amp; responsibilities</strong> &mdash; what the IC does (and doesn't do)</li>
+<li><strong>Step-by-step incident checklist</strong> &mdash; from declaration to resolution</li>
+<li><strong>Severity definitions</strong> &amp; decision tree (SEV1/2/3)</li>
+<li><strong>Component priority</strong> &mdash; P1/P2/P3 and hidden platform risks</li>
+<li><strong>Rootly commands</strong>, emoji workflows, &amp; Slack cheat sheet</li>
+<li><strong>Escalation</strong> &mdash; who to page, full service/team lookup table</li>
+<li><strong>All incident roles</strong> &mdash; IC, SME, Comms Lead, Scribe, Retro Owner</li>
+<li><strong>Communication templates</strong> &mdash; opening, updates, mitigation, resolution</li>
+<li><strong>Status page</strong> guidance, templates, and cadence</li>
+<li><strong>Post-incident</strong> &mdash; retros, retro grading, OUT tickets, executive summaries</li>
+<li><strong>Observability tools</strong> &mdash; Datadog, Honeycomb, PagerDuty</li>
+<li><strong>IC rotation</strong> schedule, shifts, swaps, and handoffs</li>
 </ul>
-<p><strong>Try asking:</strong> <em>"I just got pinged about a Sev2 and I am on call for Incident commander, what do I do now?"</em></p>
-<p>Or use the quick actions below!</p>`,
+<p><strong>Try asking:</strong> <em>"I just got paged for an incident, what do I do?"</em> or <em>"Who do I page for a booking issue?"</em></p>`,
     'bot',
     true
   );

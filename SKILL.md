@@ -12,10 +12,11 @@ Interactive chatbot that answers questions about the Zocdoc Incident Commander T
 
 ## Sources of Truth
 
-1. **Training Slide Deck (GitHub Pages):** https://fantastic-adventure-y7yw7y9.pages.github.io/
-2. **Session #1 Notes (Mar 17, 2026):** https://docs.google.com/document/d/1i-sfiPB8GZiyvW7mZDrmxnq3Vw-lupeVj-c250utlVk/edit?tab=t.gvybp59rhjpy
-3. **Session #2 Notes (Mar 24, 2026):** https://docs.google.com/document/d/1lOUGu4ZamaZLtss-JFIHB-JOs0xnXMy2H7I5NI-g7Pc/edit?tab=t.le3910nsieop
-4. **Session #3 Notes (Mar 31, 2026):** https://docs.google.com/document/d/1wH7MxN5_ojMkRNeQWC0Ix6QwLTkNWZ2UEdq-FGfA-OM/edit?tab=t.v7pdxdq88tot
+1. **IC Training Repo (primary):** https://github.com/Zocdoc/incident-command-training/ (15 markdown files covering all IC topics)
+2. **Training Slide Deck (GitHub Pages):** https://fantastic-adventure-y7yw7y9.pages.github.io/
+3. **Session #1 Notes (Mar 17, 2026):** https://docs.google.com/document/d/1i-sfiPB8GZiyvW7mZDrmxnq3Vw-lupeVj-c250utlVk/edit?tab=t.gvybp59rhjpy
+4. **Session #2 Notes (Mar 24, 2026):** https://docs.google.com/document/d/1lOUGu4ZamaZLtss-JFIHB-JOs0xnXMy2H7I5NI-g7Pc/edit?tab=t.le3910nsieop
+5. **Session #3 Notes (Mar 31, 2026):** https://docs.google.com/document/d/1wH7MxN5_ojMkRNeQWC0Ix6QwLTkNWZ2UEdq-FGfA-OM/edit?tab=t.v7pdxdq88tot
 
 When the user asks a question, **first check the embedded knowledge base below**. If additional detail is needed or the user asks about something not covered, use Glean `read_document` (via a subagent) to fetch the latest content from the Google Docs above, or direct the user to the training slide deck URL.
 
