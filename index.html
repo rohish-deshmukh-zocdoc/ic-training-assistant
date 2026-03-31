@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Incident Commander Training Assistant</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --purple-dark: #3A1D8E;
+    --purple-mid: #5B3DC4;
+    --purple-light: #7C5CE7;
+    --purple-bg: #EDE7F6;
+    --green-light: #E8F5E9;
+    --green-mid: #C8E6C9;
+    --green-accent: #4CAF50;
+    --orange-accent: #FF6B35;
+    --white: #FFFFFF;
+    --gray-light: #F5F5F7;
+    --gray-text: #6B7280;
+    --dark-text: #1A1A2E;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--gray-light);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: var(--dark-text);
+  }
+
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, var(--purple-dark) 0%, var(--purple-mid) 50%, var(--purple-light) 100%);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 4px 20px rgba(90, 61, 196, 0.3);
+    position: relative;
+    z-index: 10;
+  }
+
+  .header-icon {
+    width: 44px;
+    height: 44px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    backdrop-filter: blur(10px);
+  }
+
+  .header-text h1 {
+    color: var(--white);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+
+  .header-text p {
+    color: rgba(255,255,255,0.75);
+    font-size: 12px;
+    margin-top: 2px;
+  }
+
+  .header-badge {
+    margin-left: auto;
+    background: rgba(255,255,255,0.15);
+    color: var(--white);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+    letter-spacing: 0.5px;
+  }
+
+  /* Chat area */
+  .chat-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    scroll-behavior: smooth;
+  }
+
+  .chat-container::-webkit-scrollbar { width: 6px; }
+  .chat-container::-webkit-scrollbar-track { background: transparent; }
+  .chat-container::-webkit-scrollbar-thumb { background: #D1C4E9; border-radius: 3px; }
+
+  /* Messages */
+  .message {
+    display: flex;
+    gap: 10px;
+    max-width: 85%;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .message.bot { align-self: flex-start; }
+  .message.user { align-self: flex-end; flex-direction: row-reverse; }
+
+  .message-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .message.bot .message-avatar {
+    background: linear-gradient(135deg, var(--purple-dark), var(--purple-mid));
+    color: white;
+  }
+
+  .message.user .message-avatar {
+    background: linear-gradient(135deg, var(--green-accent), #66BB6A);
+    color: white;
+  }
+
+  .message-bubble {
+    padding: 14px 18px;
+    border-radius: 16px;
+    font-size: 14px;
+    line-height: 1.6;
+    position: relative;
+  }
+
+  .message.bot .message-bubble {
+    background: var(--white);
+    border: 1px solid #E8E0F7;
+    border-top-left-radius: 4px;
+    box-shadow: 0 2px 8px rgba(90, 61, 196, 0.06);
+  }
+
+  .message.user .message-bubble {
+    background: linear-gradient(135deg, var(--purple-mid), var(--purple-light));
+    color: var(--white);
+    border-top-right-radius: 4px;
+    box-shadow: 0 2px 8px rgba(90, 61, 196, 0.2);
+  }
+
+  .message-bubble h3 {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--purple-dark);
+  }
+
+  .message-bubble ul, .message-bubble ol {
+    margin: 8px 0;
+    padding-left: 20px;
+  }
+
+  .message-bubble li { margin-bottom: 6px; }
+
+  .message-bubble code {
+    background: var(--purple-bg);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--purple-dark);
+    font-family: 'SF Mono', Monaco, monospace;
+  }
+
+  .message-bubble a {
+    color: var(--purple-mid);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .message.user .message-bubble a { color: #E8E0F7; }
+
+  .message-bubble .step-card {
+    background: var(--green-light);
+    border-left: 3px solid var(--green-accent);
+    padding: 10px 14px;
+    border-radius: 0 8px 8px 0;
+    margin: 8px 0;
+    font-size: 13px;
+  }
+
+  .message-bubble .step-card strong { color: var(--purple-dark); }
+
+  .message-bubble .alert-card {
+    background: #FFF3E0;
+    border-left: 3px solid var(--orange-accent);
+    padding: 10px 14px;
+    border-radius: 0 8px 8px 0;
+    margin: 8px 0;
+    font-size: 13px;
+  }
+
+  .message-bubble table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 13px;
+  }
+
+  .message-bubble th {
+    background: var(--purple-bg);
+    color: var(--purple-dark);
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 12px;
+  }
+
+  .message-bubble td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #F0EBF8;
+  }
+
+  .message-bubble tr:last-child td { border-bottom: none; }
+
+  .message-time {
+    font-size: 11px;
+    color: var(--gray-text);
+    margin-top: 4px;
+    padding: 0 4px;
+  }
+
+  .message.user .message-time { text-align: right; }
+
+  /* Quick actions */
+  .quick-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .quick-action-btn {
+    background: var(--purple-bg);
+    color: var(--purple-dark);
+    border: 1px solid #D1C4E9;
+    padding: 7px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .quick-action-btn:hover {
+    background: var(--purple-mid);
+    color: var(--white);
+    border-color: var(--purple-mid);
+    transform: translateY(-1px);
+  }
+
+  /* Typing indicator */
+  .typing-indicator {
+    display: flex;
+    gap: 4px;
+    padding: 8px 0;
+  }
+
+  .typing-indicator span {
+    width: 8px;
+    height: 8px;
+    background: #B39DDB;
+    border-radius: 50%;
+    animation: typing 1.4s infinite;
+  }
+
+  .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+  .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes typing {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-6px); opacity: 1; }
+  }
+
+  /* Input area */
+  .input-area {
+    background: var(--white);
+    border-top: 1px solid #E8E0F7;
+    padding: 16px 24px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.04);
+  }
+
+  .input-wrapper {
+    flex: 1;
+    position: relative;
+  }
+
+  .input-wrapper textarea {
+    width: 100%;
+    border: 2px solid #E8E0F7;
+    border-radius: 14px;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-family: inherit;
+    resize: none;
+    outline: none;
+    transition: border-color 0.2s;
+    min-height: 46px;
+    max-height: 120px;
+    line-height: 1.4;
+    color: var(--dark-text);
+    background: var(--gray-light);
+  }
+
+  .input-wrapper textarea:focus {
+    border-color: var(--purple-mid);
+    background: var(--white);
+  }
+
+  .input-wrapper textarea::placeholder { color: #B0A8C9; }
+
+  .send-btn {
+    width: 46px;
+    height: 46px;
+    background: linear-gradient(135deg, var(--purple-mid), var(--purple-light));
+    color: var(--white);
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+
+  .send-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(90, 61, 196, 0.3);
+  }
+
+  .send-btn:active { transform: translateY(0); }
+
+  .send-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* Source links footer */
+  .source-bar {
+    background: var(--white);
+    border-top: 1px solid #F0EBF8;
+    padding: 8px 24px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    font-size: 11px;
+    color: var(--gray-text);
+  }
+
+  .source-bar a {
+    color: var(--purple-mid);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .source-bar a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-icon">🚨</div>
+  <div class="header-text">
+    <h1>Incident Commander Training Assistant</h1>
+    <p>Zocdoc Incident Commander Training</p>
+  </div>
+  <div class="header-badge">ROOTLY &amp; TOOLING</div>
+</div>
+
+<div class="chat-container" id="chatContainer">
+  <!-- Welcome message injected by JS -->
+</div>
+
+<div class="input-area">
+  <div class="input-wrapper">
+    <textarea id="userInput" placeholder="Ask me anything about IC training..." rows="1" onkeydown="handleKeyDown(event)"></textarea>
+  </div>
+  <button class="send-btn" id="sendBtn" onclick="sendMessage()">&#9654;</button>
+</div>
+
+<div class="source-bar">
+  <span>Sources:</span>
+  <a href="https://fantastic-adventure-y7yw7y9.pages.github.io/" target="_blank">Slide Deck</a>
+  <a href="https://docs.google.com/document/d/1i-sfiPB8GZiyvW7mZDrmxnq3Vw-lupeVj-c250utlVk/edit?tab=t.gvybp59rhjpy" target="_blank">Session #1</a>
+  <a href="https://docs.google.com/document/d/1lOUGu4ZamaZLtss-JFIHB-JOs0xnXMy2H7I5NI-g7Pc/edit?tab=t.le3910nsieop" target="_blank">Session #2</a>
+  <a href="https://docs.google.com/document/d/1wH7MxN5_ojMkRNeQWC0Ix6QwLTkNWZ2UEdq-FGfA-OM/edit?tab=t.v7pdxdq88tot" target="_blank">Session #3</a>
+</div>
+
+<script>
+const KB = {
+  role: {
+    keywords: ['role','what is ic','what does ic do','ic do','responsibility','responsibilities','job','purpose','incident commander is'],
+    answer: `<h3>The IC Role</h3>
+<p>The Incident Commander is the <strong>single decision-maker</strong> during an active SEV-1 incident.</p>
+<div class="step-card"><strong>Focus:</strong> Coordination, communication, delegation &mdash; NOT debugging or fixing code</div>
+<div class="step-card"><strong>Goals:</strong> Facilitate the quickest path to mitigation and resolution; pull in any team; page any responders</div>
+<div class="step-card"><strong>Scope:</strong> Exclusively SEV-1 incidents for Cohort #1</div>
+<div class="alert-card">&#x1F4A1; Key principle: <strong>"Drive the process, don't debug."</strong></div>
+<p>See the <a href="https://fantastic-adventure-y7yw7y9.pages.github.io/" target="_blank">training slide deck</a> for the full role breakdown with visuals.</p>`
+  },
+
+  during_incident: {
+    keywords: ['during incident','steps during','checklist','incident now','pulled into','my shift','what do i do','what should i do','active incident','got paged','just got'],
+    answer: `<h3>🚨 Incident Checklist (Do This Now)</h3>
+<div class="step-card"><strong>Step 1: Declare yourself as IC</strong><br>Post: <em>"I'm taking over as Incident Commander. Here's what we're seeing: [impact]. Current status: [investigating/mitigating]. Next update in 30 min."</em><br>Click <strong>Assign Roles</strong> form button &rarr; self-assign as IC.</div>
+<div class="step-card"><strong>Step 2: Escalate to service owners</strong><br>Click the <strong>Escalate</strong> form button. Select escalation policy or specific users. <strong>Escalate BEFORE diagnosis.</strong></div>
+<div class="step-card"><strong>Step 3: Investigate &amp; assess severity</strong><br>Assess blast radius. Identify exit criteria. Quantify impact (bookings, revenue, reputation).</div>
+<div class="step-card"><strong>Step 4: Mitigate</strong><br>Decide: rollback, feature flag, failover, or hotfix. Mitigated ≠ resolved (temporary state).</div>
+<div class="step-card"><strong>Step 5: Resolve</strong><br>Verify exit criteria. Update exec summary. Confirm stable for <strong>15+ minutes</strong>.</div>
+<div class="step-card"><strong>Step 6: Create action items</strong><br>Pin messages with ⭐ star or 📝 memo emoji &rarr; export to Jira.</div>
+<div class="step-card"><strong>Step 7: Assign retro lead</strong><br>Delegate the retrospective owner.</div>
+<div class="alert-card">⚡ <strong>Remember:</strong> All comms in the Slack incident channel. No side conversations. Post exec summary every 30 min (SEV-1) or 60 min (SEV-2).</div>`
+  },
+
+  severity: {
+    keywords: ['severity','sev 1','sev 2','sev 3','sev-1','sev-2','sev-3','critical','major','minor','sla','how long','time limit','acknowledge','ack'],
+    answer: `<h3>Severity Definitions &amp; SLAs</h3>
+<table>
+<tr><th>Severity</th><th>Definition</th><th>Mitigation SLA</th><th>Ack</th><th>Exec Summary</th></tr>
+<tr><td><strong>SEV-1</strong></td><td>Customer workflows BLOCKED</td><td>1 hour</td><td>15 min</td><td>Every 30 min</td></tr>
+<tr><td><strong>SEV-2</strong></td><td>Degraded / noticeable impact</td><td>4 hours</td><td>15 min</td><td>Every 60 min</td></tr>
+<tr><td><strong>SEV-3</strong></td><td>Customers wouldn't notice</td><td>Best effort</td><td>&mdash;</td><td>&mdash;</td></tr>
+</table>
+<div class="alert-card">⬆️ <strong>Always round UP</strong> if severity is ambiguous. The SLA clock does NOT stop while you sleep.</div>
+<p><strong>Examples:</strong></p>
+<ul>
+<li>SEV-1: Booking is down, KMS throttled</li>
+<li>SEV-2: Degraded auth0 API, search crash</li>
+<li>SEV-3: DLQ redrives, rollback with no customer impact</li>
+</ul>
+<p>If downgraded (e.g. SEV-2 → SEV-3), you're absolved from the original SLA.</p>`
+  },
+
+  rootly: {
+    keywords: ['rootly','slack command','incident new','incident list','create incident','form button','tooling','platform','tool'],
+    answer: `<h3>Rootly Platform &amp; Tooling</h3>
+<p><strong>Creating an incident:</strong></p>
+<div class="step-card"><code>/incident new</code> &mdash; Creates Slack channel + Jira ticket + PagerDuty alert + Confluence retro</div>
+<div class="step-card"><code>/incident list</code> &mdash; See all active incidents</div>
+<p><strong>Incident Channel Form Buttons</strong> (pinned at top):</p>
+<ol>
+<li><strong>Escalate</strong> &mdash; Page responders via escalation policy or specific users</li>
+<li><strong>Assign Roles</strong> &mdash; Self-assign IC, delegate Tech Lead, Scribe, Comms Lead</li>
+<li><strong>Update</strong> &mdash; Change severity, exec summary, detection time</li>
+<li><strong>Run Workflow</strong> &mdash; Create Confluence retro, send #prod announcements</li>
+</ol>
+<p><strong>Channel bookmarks:</strong> Google Meet, Rootly, status page, TeamCity rollback guide</p>
+<p>For screenshots of the Rootly UI, visit the <a href="https://fantastic-adventure-y7yw7y9.pages.github.io/" target="_blank">training slide deck</a>.</p>`
+  },
+
+  emoji: {
+    keywords: ['emoji','pin','star','memo','action item','timeline','jira ticket','export'],
+    answer: `<h3>Emoji Workflows</h3>
+<table>
+<tr><th>Emoji</th><th>Action</th><th>Result</th></tr>
+<tr><td>📌 Pin</td><td>Pin a message</td><td>Adds to incident <strong>timeline</strong> (auto-captured in Confluence retro)</td></tr>
+<tr><td>⭐ Star</td><td>Star a message</td><td>Marks as <strong>action item</strong> (exportable to Jira)</td></tr>
+<tr><td>📝 Memo</td><td>Memo emoji</td><td>Marks as <strong>action item</strong> (exportable to Jira)</td></tr>
+</table>
+<div class="step-card">Pinned messages get a ✅ green checkmark. Eyes 👀 and 🔥 flame do NOT.</div>
+<div class="step-card">To export: Open the <strong>Action Items modal</strong> → select items → choose Jira project key &amp; issue type → tickets are auto-created AND appear in the Confluence retro.</div>`
+  },
+
+  escalation: {
+    keywords: ['escalate','escalation','page','who to page','who do i call','service owner','pagerduty','pager duty','product area','who owns'],
+    answer: `<h3>Escalation Reference</h3>
+<div class="step-card"><strong>Use the Escalate form button</strong> in the incident channel. You can select by escalation policy OR by specific users (overrides on-call).</div>
+<p><strong>Product Areas Mapping (Coming Q2):</strong></p>
+<ul>
+<li>New dropdown maps Miro board product areas → PagerDuty escalation policies</li>
+<li>Type 3+ keystrokes to autocomplete the right team</li>
+<li>Zero guesswork &mdash; correct service owner paged instantly</li>
+</ul>
+<div class="alert-card">🤷 <strong>Don't know who to page?</strong><br>
+&bull; Message a director or VP<br>
+&bull; Use the vendor contacts quick link<br>
+&bull; @ mention <code>team-dbre</code> or <code>team-sre</code> in Slack<br>
+&bull; It's OK to page the wrong person &mdash; apologize and re-page!</div>
+<p>See the <a href="https://fantastic-adventure-y7yw7y9.pages.github.io/" target="_blank">slide deck</a> for the escalation modal screenshots.</p>`
+  },
+
+  after_incident: {
+    keywords: ['after incident','post incident','resolution','retro','retrospective','lsr','live site review','action items after','wrap up','done','resolved'],
+    answer: `<h3>After an Incident</h3>
+<div class="step-card"><strong>Post-Resolution Checklist:</strong>
+<ol>
+<li>Assign retrospective lead (retro owner)</li>
+<li>Mark action items with ⭐/📝 emoji</li>
+<li>Export action items to Jira</li>
+<li>Verify fields: root cause, resolution, timestamps, detection time</li>
+<li>Update executive summary</li>
+</ol></div>
+<p><strong>SLA Deadlines:</strong></p>
+<table>
+<tr><th>Deadline</th><th>Requirement</th></tr>
+<tr><td>5 biz days</td><td>Retro document completed</td></tr>
+<tr><td>1 week</td><td>Retro meeting held</td></tr>
+<tr><td>2 weeks</td><td>LSR presentation</td></tr>
+<tr><td>14 days</td><td>Ticket in Done state</td></tr>
+</table>
+<div class="alert-card">📊 <strong>Retrograde Scoring:</strong> Incidents are graded on data completeness in Rootly. Automated detection = more points. Grades are reported to leadership.</div>`
+  },
+
+  mitigate_vs_resolve: {
+    keywords: ['mitigate','resolve','difference','mitigated vs','resolved vs','mitigation','resolution difference'],
+    answer: `<h3>Mitigated vs. Resolved</h3>
+<div class="step-card"><strong>Mitigated</strong> = Bleeding stopped, blast radius reduced, but <strong>root cause NOT yet fixed</strong>. This is a temporary state (e.g., rolled back a bad deploy).</div>
+<div class="step-card"><strong>Resolved</strong> = Root cause addressed, problem fixed with <strong>no expectation of recurrence</strong>. Must be stable for <strong>15+ minutes</strong>.</div>
+<div class="alert-card">⚠️ Don't mark as Resolved right after a rollback! Monitor for at least 15 minutes to confirm recovery before resolving.</div>
+<p><strong>Lifecycle:</strong> Declared → Triage → Active → <strong>Mitigated</strong> → <strong>Resolved</strong> → Pending Retro → Pending LSR → Done</p>`
+  },
+
+  schedule: {
+    keywords: ['schedule','rotation','shift','when am i on','cadence','monday','weekly','primary','secondary','swap','pto','override','pager'],
+    answer: `<h3>IC Rotation Schedule</h3>
+<div class="step-card"><strong>Cadence:</strong> 7-day weekly shift, Monday → Monday, 9:00 AM → 9:00 AM</div>
+<div class="step-card"><strong>Roles:</strong> Primary IC + Secondary IC</div>
+<div class="step-card"><strong>First shifts:</strong> Noah Rowland (week 1, shadow) → Noah Weinthal (week 2, reverse shadow) → then the rest of the cohort rotates</div>
+<p><strong>PTO / Conflicts:</strong></p>
+<ul>
+<li>You're responsible for PagerDuty overrides</li>
+<li>Coordinate swaps with the secondary IC</li>
+<li>If on-call AND IC simultaneously → swap one role or delegate IC to secondary</li>
+</ul>
+<div class="alert-card">🏥 <strong>Your well-being matters:</strong> "I need to step back" is valid. Communicate the handoff clearly in the Slack channel.</div>`
+  },
+
+  exercises: {
+    keywords: ['exercise','interactive','tabletop','login failure','fc package','fc deploy','total outage','scp','practice','scenario'],
+    answer: `<h3>Interactive Exercise Takeaways</h3>
+<p><strong>Exercise 1: SEV-1 Login Failure</strong></p>
+<div class="step-card">First step: <strong>Declare IC</strong>, NOT troubleshoot. If it impacts the business, declare it. After rollback, monitor lagging indicators. Never watch in silence.</div>
+<p><strong>Exercise 2: FC Package Deploy (Friday 3:30 PM)</strong></p>
+<div class="step-card">Don't deploy 2 weeks of bundled changes on a Friday afternoon. Need platform-specific alerts (mobile web was missed). This was caught by luck, not structure.</div>
+<p><strong>Exercise 3: 16-Min Total Outage (SCP Removal)</strong></p>
+<div class="step-card">Every team paged → centralize, find shared upstream cause. SCPs are high-risk. Need strict change management + approval gates for core infrastructure changes.</div>
+<div class="alert-card">📚 Practice all 12 exercises in the <a href="https://fantastic-adventure-y7yw7y9.pages.github.io/" target="_blank">training slide deck</a>!</div>`
+  },
+
+  onboarding: {
+    keywords: ['onboarding','next steps','checklist','getting started','prepare','ready','shadow','what now','new ic','start'],
+    answer: `<h3>Your Onboarding Checklist</h3>
+<div class="step-card">
+<ol>
+<li>✅ Review the <a href="https://fantastic-adventure-y7yw7y9.pages.github.io/" target="_blank">training slide deck</a> (all slides + interactive exercises)</li>
+<li>✅ Read Session <a href="https://docs.google.com/document/d/1i-sfiPB8GZiyvW7mZDrmxnq3Vw-lupeVj-c250utlVk/edit?tab=t.gvybp59rhjpy" target="_blank">#1</a>, <a href="https://docs.google.com/document/d/1lOUGu4ZamaZLtss-JFIHB-JOs0xnXMy2H7I5NI-g7Pc/edit?tab=t.le3910nsieop" target="_blank">#2</a>, and <a href="https://docs.google.com/document/d/1wH7MxN5_ojMkRNeQWC0Ix6QwLTkNWZ2UEdq-FGfA-OM/edit?tab=t.v7pdxdq88tot" target="_blank">#3</a> notes</li>
+<li>⬜ Confirm your Rootly seat &amp; PagerDuty access</li>
+<li>⬜ Try <code>/incident new</code> in a test Slack channel</li>
+<li>⬜ Practice the tabletop exercises</li>
+<li>⬜ Shadow an IC shift (observe Noah R. or Noah W.)</li>
+<li>⬜ Reverse shadow (you lead, senior IC watches)</li>
+<li>⬜ Go live on the weekly rotation</li>
+<li>⬜ Keep Miro board updated for your team</li>
+<li>⬜ Make your team go through Rootly exercise</li>
+</ol>
+</div>`
+  },
+
+  communication: {
+    keywords: ['communication','communicate','update','exec summary','executive summary','boilerplate','announce','slack etiquette','etiquette','message','template'],
+    answer: `<h3>Communication Standards</h3>
+<div class="step-card"><strong>IC Announcement Template:</strong><br><em>"I'm taking over as Incident Commander. Here's what we're seeing: [impact summary]. We need [SMEs/teams]. Current status: [investigating/mitigating]. Next update in 30 minutes."</em></div>
+<p><strong>The Rule:</strong> Main Channel = IC Updates Only → Threads = Everything Else</p>
+<p><strong>Main channel posts:</strong></p>
+<ul>
+<li>Status updates from IC</li>
+<li>Severity changes (with justification)</li>
+<li>Escalation requests</li>
+<li>Key decisions</li>
+</ul>
+<p><strong>Threads only:</strong> Investigation details, debugging, log traces</p>
+<div class="alert-card">🔇 <strong>If radio silence > 30 min:</strong> Push for updates. Ask: "What's the status? What are we investigating?" Screenshots of dashboards help provide context.</div>
+<p><strong>Google Meet etiquette:</strong> Everything discussed on the call MUST be transcribed into the Slack channel. Context on video calls is lost forever if not captured.</p>`
+  },
+
+  handoff: {
+    keywords: ['handoff','hand off','transfer','tired','fatigue','step back','long running','long incident','secondary take'],
+    answer: `<h3>IC Handoff &amp; Fatigue</h3>
+<div class="step-card"><strong>When to hand off:</strong>
+<ul>
+<li>You've been on for extended hours and feel fatigued</li>
+<li>You need to step back for personal reasons</li>
+<li>You have a conflicting on-call responsibility</li>
+</ul></div>
+<div class="step-card"><strong>How to hand off:</strong>
+<ol>
+<li>Announce in the Slack channel: <em>"Handing off IC to [secondary]. Here's current status: [summary]."</em></li>
+<li>The secondary self-assigns as IC via Assign Roles</li>
+<li>Ensure all context is documented in the channel</li>
+</ol></div>
+<div class="alert-card">💚 <strong>"I need to step back"</strong> is always valid. Your health matters. Just communicate clearly and document the handoff.</div>`
+  },
+
+  cohort: {
+    keywords: ['cohort','members','who','team','elected','chosen','people','list'],
+    answer: `<h3>Cohort #1 Members</h3>
+<p>Selected based on senior director recommendations &mdash; "the cream of the crop":</p>
+<ul>
+<li>Hank Bao</li>
+<li>Noah Rowland</li>
+<li>Mukesh Chhatani</li>
+<li>Noah Weinthal</li>
+<li>Brandie Burditt (original sole IC)</li>
+<li>Janice Cheung (training lead)</li>
+<li>Rohish Deshmukh</li>
+<li>Elizabeth Ford</li>
+<li>James Collins (volunteer)</li>
+<li>Chris Smith</li>
+<li>John Penner</li>
+<li>Mustafa Rizvi</li>
+</ul>
+<p>Cohort #2 will be identified after Cohort #1 completes their first rotation.</p>`
+  },
+
+  lifecycle: {
+    keywords: ['lifecycle','life cycle','states','state','flow','triage','pending','done state'],
+    answer: `<h3>Incident Lifecycle States</h3>
+<div class="step-card">
+<strong>Declared</strong> → <strong>Triage</strong> → <strong>Active</strong> → <strong>Mitigated</strong> → <strong>Resolved</strong> → <strong>Pending Retro</strong> → <strong>Pending LSR</strong> → <strong>Pending Action Items</strong> → <strong>Done</strong>
+</div>
+<ul>
+<li><strong>Mitigated:</strong> Blast radius reduced, root cause NOT fixed</li>
+<li><strong>Resolved:</strong> Root cause addressed, stable 15+ min</li>
+<li><strong>Pending Retro:</strong> Retro doc due in 5 biz days</li>
+<li><strong>Pending LSR:</strong> Live Site Review due in 2 weeks</li>
+</ul>
+<p>The Jira outage ticket progresses through these same states. Violations are reported to leadership.</p>`
+  }
+};
+
+function getTimeStr() {
+  return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
+function addMessage(content, type, showQuickActions) {
+  const container = document.getElementById('chatContainer');
+  const msgDiv = document.createElement('div');
+  msgDiv.className = `message ${type}`;
+
+  const avatar = type === 'bot' ? '🚨' : '👤';
+  let html = `<div class="message-avatar">${avatar}</div>
+    <div>
+      <div class="message-bubble">${content}`;
+
+  if (showQuickActions) {
+    html += `<div class="quick-actions">
+      <button class="quick-action-btn" onclick="askQuestion('What do I do during an incident?')">During Incident</button>
+      <button class="quick-action-btn" onclick="askQuestion('What are the severity levels?')">Severity &amp; SLAs</button>
+      <button class="quick-action-btn" onclick="askQuestion('How do I use Rootly?')">Rootly Tooling</button>
+      <button class="quick-action-btn" onclick="askQuestion('How do emoji workflows work?')">Emoji Workflows</button>
+      <button class="quick-action-btn" onclick="askQuestion('How do I escalate?')">Escalation</button>
+      <button class="quick-action-btn" onclick="askQuestion('What happens after an incident?')">After Incident</button>
+      <button class="quick-action-btn" onclick="askQuestion('What is my onboarding checklist?')">Onboarding</button>
+    </div>`;
+  }
+
+  html += `</div><div class="message-time">${getTimeStr()}</div></div>`;
+  msgDiv.innerHTML = html;
+  container.appendChild(msgDiv);
+  container.scrollTop = container.scrollHeight;
+}
+
+function showTyping() {
+  const container = document.getElementById('chatContainer');
+  const typingDiv = document.createElement('div');
+  typingDiv.className = 'message bot';
+  typingDiv.id = 'typingIndicator';
+  typingDiv.innerHTML = `<div class="message-avatar">🚨</div>
+    <div><div class="message-bubble"><div class="typing-indicator"><span></span><span></span><span></span></div></div></div>`;
+  container.appendChild(typingDiv);
+  container.scrollTop = container.scrollHeight;
+}
+
+function removeTyping() {
+  const el = document.getElementById('typingIndicator');
+  if (el) el.remove();
+}
+
+function findAnswer(input) {
+  const lower = input.toLowerCase();
+  let bestMatch = null;
+  let bestScore = 0;
+
+  for (const [key, entry] of Object.entries(KB)) {
+    let score = 0;
+    for (const kw of entry.keywords) {
+      if (lower.includes(kw)) {
+        score += kw.length;
+      }
+    }
+    if (score > bestScore) {
+      bestScore = score;
+      bestMatch = entry;
+    }
+  }
+
+  if (bestMatch && bestScore > 3) {
+    return bestMatch.answer;
+  }
+
+  return `<p>I don't have a specific answer for that in my training knowledge base. Here are some things I can help with:</p>
+<div class="quick-actions">
+  <button class="quick-action-btn" onclick="askQuestion('What is the IC role?')">IC Role</button>
+  <button class="quick-action-btn" onclick="askQuestion('What do I do during an incident?')">During Incident</button>
+  <button class="quick-action-btn" onclick="askQuestion('What are the severity levels?')">Severity &amp; SLAs</button>
+  <button class="quick-action-btn" onclick="askQuestion('How do I use Rootly?')">Rootly Tooling</button>
+  <button class="quick-action-btn" onclick="askQuestion('How do I escalate?')">Escalation</button>
+  <button class="quick-action-btn" onclick="askQuestion('What happens after an incident?')">After Incident</button>
+  <button class="quick-action-btn" onclick="askQuestion('What is my onboarding checklist?')">Onboarding</button>
+</div>
+<p>Or check the full <a href="https://fantastic-adventure-y7yw7y9.pages.github.io/" target="_blank">training slide deck</a> for detailed content with images.</p>`;
+}
+
+function sendMessage() {
+  const input = document.getElementById('userInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  addMessage(text, 'user');
+  input.value = '';
+  input.style.height = 'auto';
+
+  showTyping();
+
+  setTimeout(() => {
+    removeTyping();
+    const answer = findAnswer(text);
+    addMessage(answer, 'bot');
+  }, 600 + Math.random() * 400);
+}
+
+function askQuestion(q) {
+  document.getElementById('userInput').value = q;
+  sendMessage();
+}
+
+function handleKeyDown(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+  // Auto-resize
+  setTimeout(() => {
+    e.target.style.height = 'auto';
+    e.target.style.height = Math.min(e.target.scrollHeight, 120) + 'px';
+  }, 0);
+}
+
+// Welcome message
+window.onload = () => {
+  addMessage(
+    `<h3>Welcome to the Incident Commander Training Assistant! 👋</h3>
+<p>I'm here to help you with anything related to the <strong>Zocdoc Incident Commander Training</strong> program. Ask me about:</p>
+<ul>
+<li>Your <strong>role &amp; responsibilities</strong> as an IC</li>
+<li><strong>Step-by-step guidance</strong> during an active incident</li>
+<li><strong>Severity definitions</strong> and SLAs</li>
+<li><strong>Rootly tooling</strong>, Slack commands, and emoji workflows</li>
+<li><strong>Escalation</strong> procedures and who to page</li>
+<li><strong>Post-incident</strong> retro and action items</li>
+</ul>
+<p><strong>Try asking:</strong> <em>"I just got pinged about a Sev2 and I am on call for Incident commander, what do I do now?"</em></p>
+<p>Or use the quick actions below!</p>`,
+    'bot',
+    true
+  );
+};
+</script>
+</body>
+</html>
