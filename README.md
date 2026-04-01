@@ -4,7 +4,7 @@
 
 ### Interactive chatbot for the Zocdoc Incident Commander Training program
 
-[![GitHub Pages](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-blueviolet?style=for-the-badge&logo=github)](https://rohish-deshmukh-zocdoc.github.io/ic-training-assistant/)
+[![GitHub Pages](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-blueviolet?style=for-the-badge&logo=github)](https://rohish-deshmukh-zocdoc.github.io/incident-commander-assistant/)
 [![Made with Claude](https://img.shields.io/badge/Made%20with-Claude%20Code-purple?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSIxMCIgZmlsbD0id2hpdGUiLz48L3N2Zz4=)](https://github.com/anthropics/claude-code)
 
 <br/>
@@ -33,7 +33,7 @@
 **Your AI-powered guide through Zocdoc's Incident Commander process.**
 Ask questions, get step-by-step checklists, and reference the training materials -- all in one place.
 
-[**Launch the Chatbot**](https://rohish-deshmukh-zocdoc.github.io/ic-training-assistant/) | [**Training Slide Deck**](https://fantastic-adventure-y7yw7y9.pages.github.io/)
+[**Launch the Chatbot**](https://rohish-deshmukh-zocdoc.github.io/incident-commander-assistant/) | [**Training Slide Deck**](https://fantastic-adventure-y7yw7y9.pages.github.io/)
 
 </div>
 
@@ -63,7 +63,7 @@ The IC Training Assistant is an interactive chatbot that answers questions about
 
 Just open the link in your browser:
 
-> **https://rohish-deshmukh-zocdoc.github.io/ic-training-assistant/**
+> **https://rohish-deshmukh-zocdoc.github.io/incident-commander-assistant/**
 
 ---
 
@@ -74,7 +74,7 @@ Want to use it directly from your terminal via `/ic-training`? Follow these step
 #### 1. Clone the repo
 
 ```bash
-git clone https://github.com/rohish-deshmukh-zocdoc/ic-training-assistant.git
+git clone https://github.com/rohish-deshmukh-zocdoc/incident-commander-assistant.git
 ```
 
 #### 2. Copy the skill files to your Claude Code skills directory
@@ -84,7 +84,7 @@ git clone https://github.com/rohish-deshmukh-zocdoc/ic-training-assistant.git
 mkdir -p ~/.claude/skills/ic-training
 
 # Copy the HTML chatbot
-cp ic-training-assistant/index.html ~/.claude/skills/ic-training/ic-chatbot.html
+cp incident-commander-assistant/index.html ~/.claude/skills/ic-training/ic-chatbot.html
 ```
 
 #### 3. Download the SKILL.md
@@ -113,7 +113,7 @@ This will launch the chatbot in your browser. Or ask a question inline:
 
 ### In the Browser
 
-1. Open the [live chatbot](https://rohish-deshmukh-zocdoc.github.io/ic-training-assistant/)
+1. Open the [live chatbot](https://rohish-deshmukh-zocdoc.github.io/incident-commander-assistant/)
 2. Click a **quick action button** or type your question in the chat box
 3. Get instant answers with checklists, tables, and links to source materials
 
@@ -157,8 +157,8 @@ This site is powered by **GitHub Pages**. To update the chatbot:
 
 ```bash
 # Clone the repo
-git clone https://github.com/rohish-deshmukh-zocdoc/ic-training-assistant.git
-cd ic-training-assistant
+git clone https://github.com/rohish-deshmukh-zocdoc/incident-commander-assistant.git
+cd incident-commander-assistant
 
 # Edit index.html (the chatbot)
 # ... make your changes ...
